@@ -1,0 +1,18 @@
+::ng-deep .approved {
+  background-color: #16a34a !important;
+  color: white !important;
+}
+
+::ng-deep .pending {
+  background-color: orange !important;
+  color: white !important;
+  
+}
+
+::ng-deep .rejected {
+  background-color: #dc2626 !important;
+  color: white !important;
+}
+::ng-deep .rejected_Reversed{
+  background: linear-gradient(135deg, #FFA500, #FF4500);
+}

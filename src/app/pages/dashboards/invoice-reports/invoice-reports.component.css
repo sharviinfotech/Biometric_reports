@@ -1,0 +1,62 @@
+
+.card-header{
+    padding: 8px !important;
+    /* background-color: rgb(85 110 230) !important; */
+    color: white !important;
+    border-radius: 0px !important;
+    /* background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(225,70,252,1) 100%); */
+    background: #6ba3cd !important;
+  }
+  .card-body{
+  
+    padding: 10px !important;
+  }
+  * Invoice Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+
+
+.table th {
+  padding: 10px !important;
+  border-bottom: 2px solid #ddd !important;
+  /* background-color: #090979 !important; */
+  background-color: rgb(88 98 145)!important;
+  color: white;
+}
+.table td {
+    padding: 10px !important;
+  }
+
+  ::ng-deep .text-blue-600 {
+    color: #2563eb !important;
+  }
+  
+  ::ng-deep .text-green-600 {
+    color: #16a34a !important;
+  }
+  
+  ::ng-deep .text-orange-600 {
+    color: orange !important;
+  }
+  
+  ::ng-deep .text-red-600 {
+    color: #dc2626 !important;
+  }
+  
+  ::ng-deep .cursor-pointer {
+    cursor: pointer !important;
+  }
+  ::ng-deep .underline {
+    text-decoration: underline !important;
+  }
+::ng-deep  .rejected_Reversed{
+  background: linear-gradient(135deg, #FFA500, #FF4500) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  font-weight: bold !important;
+}
+ 
+  

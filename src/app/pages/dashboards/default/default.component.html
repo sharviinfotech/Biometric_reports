@@ -1,0 +1,75 @@
+<div class="flex w-full flex-auto flex-col">
+  <div class="mx-auto flex w-full max-w-screen-xl flex-wrap p-1 shadow-md">
+    <div class="card-header" style="text-align: center !important;">
+      Invoice Data Visualization
+    </div>
+
+    <div class="row" id="barChart" style="margin-top: 30px;" style="margin-top: 10px;border: 2px solid darkviolet !important;margin-right: 0px !important;
+            margin-left: 0px !important;">
+      <div class="col-md-6 col-lg-6" id="leftBar">
+        <apx-chart [series]="barChartOptions.series" [chart]="barChartOptions.chart" [xaxis]="barChartOptions.xaxis"
+          [yaxis]="barChartOptions.yaxis" [plotOptions]="barChartOptions.plotOptions" [colors]="barChartOptions.colors">
+        </apx-chart>
+      </div>
+     
+      <div *ngIf="pieChartOptions.series?.length > 0" class="col-md-6 col-lg-6" id="rightBar">
+        <apx-chart [options]="pieChartOptions" [series]="pieChartOptions.series" [chart]="pieChartOptions.chart"
+          [labels]="pieChartOptions.labels" [colors]="pieChartOptions.colors">
+        </apx-chart>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <!-- Invoice List Table -->
+  <div class="tableFixHeadR">
+    <table class="table table-bordered table-stripped">
+      <thead class="thead-light">
+        <tr>
+          <th class="text-nowrap">Invoice Number</th>
+          <th class="text-nowrap">Invoice Date</th>
+          <th class="text-nowrap">Customer Name</th>
+          <th class="text-nowrap">Type Of Aircraft</th>
+          <th class="text-nowrap">City</th>
+          <th class="text-nowrap">Destination</th>
+          <th class="text-nowrap">Date Of Journey</th>
+          <th class="text-nowrap">Total Amount</th>
+          <th class="text-nowrap">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- (click)="invoice.status === 'Approved' ? openInvoicePopup(invoice) : null" -->
+        <tr *ngFor="let invoice of filteredInvoiceList" 
+        
+        
+        >
+      
+      <td>{{ invoice.invoiceUniqueNumber }}</td>
+      <td>{{ invoice.header.ProformaInvoiceDate }}</td>
+      <td>{{ invoice.header.ProformaCustomerName }}</td>
+      <td>{{ invoice.header.ProformaTypeOfAircraft }}</td>
+      <td>{{ invoice.header.ProformaCity }}</td>
+      <td>{{ invoice.header.BookingSector }}</td>
+      <td>{{ invoice.header.BookingDateOfJourny }}</td>
+      <td>{{ invoice.grandTotal | number: '1.2-2' }}</td>
+      <td [ngClass]="{
+        'approved': invoice.status === 'Approved',
+        'pending': invoice.status === 'Pending',
+        'rejected': invoice.status === 'Rejected',
+        'rejected_Reversed': invoice.status === 'Rejected_Reversed'
+      }">{{ invoice.status }}</td>
+    
+    </tr>
+    
+
+      </tbody>
+    </table>
+    <!-- <button printSectionId="invoice-content" ngxPrint>Print Invoice</button> -->
+  </div>
+</div>
+
+
+
+<!-- <button (click)="showSpinner()">Show Spinner</button> -->

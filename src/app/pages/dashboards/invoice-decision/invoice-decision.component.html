@@ -1,0 +1,142 @@
+<div class="card">
+    <div class="card-header" style="text-align: center;">
+        Invoice Decision
+    </div>
+    <div class="card-body">
+        <div class="tableFixHeadR">
+            <table class="table table-bordered table-stripped">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-nowrap">Invoice Number</th>
+                        <th class="text-nowrap">Invoice Date</th>
+                        <th class="text-nowrap">Customer Name</th>
+                        <th class="text-nowrap">Type Of Aircraft</th>
+                        <th class="text-nowrap">City</th>
+                        <th class="text-nowrap">Destination</th>
+                        <th class="text-nowrap">Date Of Journey</th>
+                        <th class="text-nowrap">Total Amount</th>
+                        <th clas="text-nowrap" *ngIf="loginData?.data.userActivity != 'superAdmin'">Status</th>
+                        <th class="text-nowrap" *ngIf="loginData?.data.userActivity == 'superAdmin'">Actions</th>
+                        <!-- New column for buttons -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let invoice of allInvoiceList">
+                        <td>
+                            <span [ngClass]=>
+                                {{ invoice.invoiceUniqueNumber }}
+                            </span>
+                        </td>
+                        <td>{{ invoice.header.ProformaInvoiceDate }}</td>
+                        <td>{{ invoice.header.ProformaCustomerName }}</td>
+                        <td>{{ invoice.header.ProformaTypeOfAircraft }}</td>
+                        <td>{{ invoice.header.ProformaCity }}</td>
+                        <td>{{ invoice.header.BookingSector }}</td>
+                        <td>{{ invoice.header.BookingDateOfJourny }}</td>
+                        <td>{{ invoice.grandTotal | number: '1.2-2'}}</td>
+                        <td *ngIf="loginData?.data.userActivity != 'MD'" [ngClass]="{
+                  'text-green-600 ': invoice.status === 'Approved',
+                  'text-orange-600': invoice.status === 'Pending',
+                  'text-red-600': invoice.status === 'Rejected',
+                  'rejected_Reversed':invoice.status === 'Rejected_Reversed'
+                }">
+                            {{ invoice.status }}
+                        </td>
+                        <!-- New Actions Column -->
+                        <td [class.selected]="invoiceItem === invoice" [ngClass]="{
+      'text-green-600': invoice.status === 'Approved',
+      'text-orange-600': invoice.status === 'Pending',
+      'text-red-600': invoice.status === 'Rejected',
+      'rejected_Reversed':invoice.status === 'Rejected_Reversed'}" *ngIf="loginData?.data.userActivity == 'MD'">
+
+                            <div *ngIf='invoice.status == "Pending" || invoice.status == "Rejected_Reversed"'
+                                class="d-flex gap-2">
+                                <button class="btn btn-success btn-sm" (click)="openModal('Approved', invoice)">
+                                    Approve
+                                </button>
+                                <button class="btn btn-danger btn-sm" (click)="openModal('Rejected', invoice)">
+                                    Reject
+                                </button>
+                            </div>
+
+
+
+                            <span *ngIf="invoice.status !== 'Pending'" style="text-decoration: none; cursor: pointer;"
+                                (click)="afterDecisionOpen(invoice)">
+                                {{ invoice.status }}
+                            </span>
+
+                        </td>
+
+
+                        <!-- Modal Template -->
+
+
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<ng-template #approveModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Approval</h5>
+        <!-- <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button> -->
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="approveForm">
+            <label>Remarks:</label>
+            <input type="text" formControlName="remark" class="form-control">
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button"  *ngIf="selectedAction == 'Approved'" class="btn btn-primary" (click)="approveButton()">Approve</button>
+        <button type="button"  *ngIf="selectedAction == 'Rejected'" class="btn btn-primary" (click)="rejectButton()">Reject</button>
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+    </div>
+</ng-template>
+
+
+<ng-template #afterDecision let-c="close">
+    <div class="modal-header">
+        <h5 class="modal-title">Reason Details</h5>
+    </div>
+    <div class="modal-body">
+
+        <form [formGroup]="approveForm">
+            <div class="row"> <!-- Add a row to align fields in one line -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="remark">Remark </label>
+                        <input id="remark" class="form-control form-control-sm" formControlName="remark" type="text"
+                            placeholder="Enter your reason here" readonly />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="remark">Authorised By</label>
+                        <input id="remark" class="form-control form-control-sm"
+                            formControlName="invoiceApprovedOrRejectedByUser" type="text"
+                            placeholder="Enter your reason here" readonly />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="remark">Authorised Date And Time</label>
+                        <input id="remark" class="form-control form-control-sm"
+                            formControlName="invoiceApprovedOrRejectedDateAndTime" type="text"
+                            placeholder="Enter your reason here" readonly />
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btnClose btn-raised" (click)="c('Close click')">Close</button>
+    </div>
+
+</ng-template>

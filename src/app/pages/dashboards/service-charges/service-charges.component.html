@@ -1,0 +1,39 @@
+<div class="card">
+    <div class="card-header text-center bg-primary text-white">
+        <h5>Service Charges</h5>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="chargesForm">
+            <div class="row">  <!-- Row to align fields in one line -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="charges" class="form-label fw-bold">Charges Name</label>
+                        <input type="text" class="form-control" formControlName="chargesName" placeholder="Enter charge name">
+                    </div>
+                </div>
+                <div class="col-lg-4 mt-4">
+                    <!-- Save Button -->
+                    <button type="button" class="btn btn-success btn-sm mt-3" (click)="saveData()">Save</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Display Table Only When Save Button Is Clicked -->
+        <div class="mt-4" *ngIf="isTableVisible">
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th>Serial No</th>
+                        <th>Charges Names</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let charge of savedCharges; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ charge }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
