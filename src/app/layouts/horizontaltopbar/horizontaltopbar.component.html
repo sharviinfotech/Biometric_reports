@@ -3,6 +3,25 @@
     <nav class="navbar navbar-light navbar-expand-lg topnav-menu active">
       <div class="collapse navbar-collapse active" id="topnav-menu-content">
         <ul class="navbar-nav">
+          <!-- Biometric Reports Menu Item -->
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="'/Biometricreports'" routerLinkActive="active">
+              <i class="bx bx-spreadsheet me-1"></i> Reports
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>
+
+
+
+<!-- <div class="topnav">
+  <div class="container-fluid">
+    <nav class="navbar navbar-light navbar-expand-lg topnav-menu active">
+      <div class="collapse navbar-collapse active" id="topnav-menu-content">
+        <ul class="navbar-nav">
           @for (item of menuItems; track $index) {
           <ng-container>
             <li class="nav-item dropdown">
@@ -76,4 +95,4 @@
       </div>
     </nav>
   </div>
-</div>
+</div> -->

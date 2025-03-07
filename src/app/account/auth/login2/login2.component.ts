@@ -33,16 +33,15 @@ export class Login2Component implements OnInit {
     // 'assets/images/worldMapImage.png',
     // 'assets/images/AircraftFlight.png',
 
-     'assets/images/flightAndSky.jpg',
-     'assets/images/flight_ground.jpg',
+     'assets/images/Bio1.jpg',
+     'assets/images/Bio2.jpg',
     //  'assets/images/fightinground.jpg',
-    'assets/images/flightair.jpg',
-    //  'assets/images/boardingatflight.jpg',
-    // 'assets/images/boardingpass.jpg',
-    'assets/images/flightparking.jpg',
-    'assets/images/flightHalf.jpg',
+    // 'assets/images/Bio3.jpg',
+     'assets/images/bio3.jpg',
+    // 'assets/images/bio5.jpg',
+    'assets/images/bio6.jpg',
     // 'assets/images/airportfromflightstepdown.png',
-    'assets/images/aircraftinsky.png',
+    // 'assets/images/aircraftinsky.png',
 
 
   ];
@@ -332,8 +331,6 @@ export class Login2Component implements OnInit {
       }
     );
   }
-  
-  
   
 
 }

@@ -6,63 +6,21 @@ export const MENU: MenuItem[] = [
     //     label: 'MENUITEMS.DASHBOARDS.TEXT',
     //     icon: 'bx-home-circle',
     //     subItems: [
-            {
-                id: 2,
-                label: 'Dashboard',
-                link: '/dashboard',
-                parentId: 2,
-                icon: 'bx-home-circle',
-            },
-            {
-                id: 3,
-                label: 'Customer Creation',
-                link: '/CustomerCreation',
-                parentId: 1,
-                icon: 'bx-user-check', // Represents invoice approval/decision
-            },
             // {
-            //     id:4 ,
-            //     label: 'Invoice Layout',
-            //     link: '/InvoiceLayout',
-            //     parentId: 1,
-            //     icon: 'bx bx-layout',
+            //     id: 2,
+            //     label: 'Dashboard',
+            //     link: '/dashboard',
+            //     parentId: 2,
+            //     icon: 'bx-home-circle',
             // },
             {
-                id:5,
-                label: 'Invoice',
-                link: '/Invoice',
+                id: 3,
+                label: 'Reports',
+                link: '/Biometricreports',
                 parentId: 1,
-                icon: 'bx bx-plus',
+                icon: 'bx bx-spreadsheet', // Represents invoice approval/decision
             },
-            
-            {
-                id: 6,
-                label: 'Invoice Decision',
-                link: '/InvoiceDecision',
-                parentId: 1,
-                icon: 'bx-sync', // Represents invoice approval/decision
-            },
-            {
-                id:7 ,
-                label: 'Invoice Reports',
-                link: '/InvoiceReports',
-                parentId: 1,
-                icon: 'bx bx-spreadsheet',
-            },
-            {
-                id: 8,
-                label: 'User Creation',
-                link: '/InvoiceUserCreation',
-                parentId: 1,
-                icon: 'bx bx-user-check',
-            },
-            {
-                id: 9,
-                label: 'Service Charges',
-                link: '/ServiceCharges',
-                parentId: 1,
-                icon: 'bx bx-receipt',
-            },
+           
             
 
             // <i class="bx bx-user-plus"></i>  

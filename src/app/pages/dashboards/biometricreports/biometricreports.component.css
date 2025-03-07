@@ -1,0 +1,82 @@
+/* .table-container {
+    max-width: 100%;
+    overflow-x: auto;
+    position: relative;
+}
+
+.table {
+    width: max-content;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+th, td {
+    white-space: nowrap;
+    text-align: center;
+    padding: 8px;
+}
+
+.sticky-col {
+    position: sticky;
+    left: 0;
+    background-color: white;
+    z-index: 2;
+    border-right: 1px solid #ddd;
+}
+
+.sticky-col:nth-child(2) { left: 50px; }
+.sticky-col:nth-child(3) { left: 100px; }
+.sticky-col:nth-child(4) { left: 200px; } */
+
+
+.table-container {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .fixed-table {
+    border-collapse: collapse;
+    width: 400px;
+    flex-shrink: 0;
+    background: white;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    table-layout: fixed; /* Ensure columns have fixed width */
+  }
+  
+  .fixed-table th, .fixed-table td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+    width: 100px; /* Ensure consistency */
+  }
+  
+  .scrollable-container {
+    overflow-x: auto;
+    width: calc(100% - 400px);
+  }
+  
+  .scrollable-table {
+    border-collapse: collapse;
+    min-width: 800px;
+    table-layout: fixed; /* Ensure columns don't shrink */
+  }
+  
+  .scrollable-table th, .scrollable-table td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+    white-space: nowrap;
+    width: 100px; /* Make sure column widths match */
+  }
+  
+  .scrollable-table thead th {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 2;
+  }
+  
+  

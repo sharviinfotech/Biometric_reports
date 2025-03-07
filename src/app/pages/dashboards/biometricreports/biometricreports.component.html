@@ -1,0 +1,62 @@
+<div class="row">
+    <div class="col-lg-4">
+      <label>Select Month: </label>
+      <select [(ngModel)]="selectedMonth" (change)="generateTableHeaders()">
+        <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+      </select>
+    </div>
+
+    <div class="col-lg-4">
+      <label>Select Year: </label>
+      <select [(ngModel)]="selectedYear" (change)="generateTableHeaders()">
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+    </div>
+</div>
+
+<!-- Table Wrapper -->
+<div class="mt-2">
+    <div class="table-container">
+        <!-- Fixed Table -->
+        <table class="fixed-table">
+            <thead>
+                <tr>
+                    <th style="width: 50px;" class="text-nowrap">S.No</th>
+                    <th style="width: 100px;" class="text-nowrap">Code No</th>
+                    <th style="width: 150px;" class="text-nowrap">Name of Employee</th>
+                    <th style="width: 150px;" class="text-nowrap">Department</th>
+                    <th style="width: 150px;" class="text-nowrap">Contractor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let employee of employees">
+                    <td class="text-nowrap">{{ employee.sno }}</td>
+                    <td class="text-nowrap">{{ employee.codeNo }}</td>
+                    <td class="text-nowrap">{{ employee.name }}</td>
+                    <td class="text-nowrap">{{ employee.department }}</td>
+                    <td class="text-nowrap">{{ employee.contractor }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Scrollable Section -->
+        <div class="scrollable-container">
+            <table class="scrollable-table">
+                <thead>
+                    <tr>
+                        <th *ngFor="let day of daysInMonth" style="width: 100px; font-size: 10px;">
+                            {{ day.day }} <br> {{ day.weekday }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let employee of employees">
+                        <td *ngFor="let day of daysInMonth" style="width: 100px;">
+                            {{ employee.attendance[day.day] || 0 }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
