@@ -1,24 +1,81 @@
+<!-- Filter Options in Single Row -->
 <div class="row">
+    <!-- Month Dropdown -->
     <div class="col-lg-4">
-      <label>Select Month: </label>
-      <select [(ngModel)]="selectedMonth" (change)="generateTableHeaders()">
-        <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
-      </select>
+        <label>Select Month: </label>
+        <select [(ngModel)]="selectedMonth" (change)="generateTableHeaders()" 
+            >
+            <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+        </select>
     </div>
 
-    <div class="col-lg-4">
-      <label>Select Year: </label>
-      <select [(ngModel)]="selectedYear" (change)="generateTableHeaders()">
-        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
-      </select>
+    <!-- Year Dropdown -->
+      <div class="col-lg-4">
+
+        <label>Select Year: </label>
+        <select [(ngModel)]="selectedYear" (change)="generateTableHeaders()" 
+>
+            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+        </select>
     </div>
+    <div class="col-lg-4">
+<div class="row">
+        <!-- Format Dropdown -->
+        <div class="col-lg-8">
+
+            <label>Download Format: </label>
+            <select [(ngModel)]="selectedFormat" 
+               >
+                <option value="">Select Format</option>
+                <option value="pdf">PDF </option>
+                <option value="excel">Excel </option>
+            </select>
+        </div>
+    
+        <!-- Download Button -->
+        <div *ngIf="selectedFormat" class="col-lg-2 mt-4">
+            <button (click)="downloadFile()" 
+                style="height: 35px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Download
+            </button>
+        </div>
+        </div>
 </div>
 
+
+</div>
+
+<div class="row">
+    <div class="col-lg-3">
+        <label>Code No: </label>
+        <input type="text"  placeholder="Enter Code No" class="form-control" [(ngModel)]="searchTerm.codeNo" (keydown.enter)="filteredEmployees()" (keydown.tab)="filteredEmployees()" >
+    </div>
+
+    <!-- Employee Input -->
+    <div class="col-lg-3">
+        <label>Employee: </label>
+        <input type="text" placeholder="Enter Employee Name" class="form-control" [(ngModel)]="searchTerm.name" (keydown.enter)="filteredEmployees()" (keydown.tab)="filteredEmployees()" >
+    </div>
+
+
+    <!-- Department Input -->
+    <div class="col-lg-3">
+        <label>Department: </label>
+        <input type="text"  placeholder="Enter Department" class="form-control" [(ngModel)]="searchTerm.department" (keydown.enter)="filteredEmployees()" (keydown.tab)="filteredEmployees()" >
+    </div>
+
+    <!-- Contractor Input -->
+    <div class="col-lg-3">
+        <label>Contractor: </label>
+        <input type="text"  placeholder="Enter Contractor Name" class="form-control" [(ngModel)]="searchTerm.contractor" (keydown.enter)="filteredEmployees()" (keydown.tab)="filteredEmployees()" >
+    </div>
+    
+</div>
 <!-- Table Wrapper -->
 <div class="mt-2">
     <div class="table-container">
         <!-- Fixed Table -->
-        <table class="fixed-table">
+        <table class="fixed-table"  >
             <thead>
                 <tr>
                     <th style="width: 50px;" class="text-nowrap">S.No</th>
@@ -29,7 +86,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let employee of employees">
+                <tr *ngFor="let employee of filteredEmployeesData">
                     <td class="text-nowrap">{{ employee.sno }}</td>
                     <td class="text-nowrap">{{ employee.codeNo }}</td>
                     <td class="text-nowrap">{{ employee.name }}</td>
@@ -39,8 +96,9 @@
             </tbody>
         </table>
 
+
         <!-- Scrollable Section -->
-        <div class="scrollable-container">
+        <div class="scrollable-container" style="overflow-x: auto; max-width: 100%;">
             <table class="scrollable-table">
                 <thead>
                     <tr>
@@ -50,7 +108,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let employee of employees">
+                    <tr *ngFor="let employee of filteredEmployeesData">
                         <td *ngFor="let day of daysInMonth" style="width: 100px;">
                             {{ employee.attendance[day.day] || 0 }}
                         </td>

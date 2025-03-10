@@ -48,7 +48,7 @@ th, td {
   
   .fixed-table th, .fixed-table td {
     border: 1px solid black;
-    padding: 8px;
+    padding: 13px;
     text-align: left;
     width: 100px; /* Ensure consistency */
   }
@@ -62,6 +62,8 @@ th, td {
     border-collapse: collapse;
     min-width: 800px;
     table-layout: fixed; /* Ensure columns don't shrink */
+    height: 100% !important;
+
   }
   
   .scrollable-table th, .scrollable-table td {
@@ -78,5 +80,8 @@ th, td {
     background: white;
     z-index: 2;
   }
-  
+  .row{
+    display: flex;
+    width: 100%;
+  }
   
