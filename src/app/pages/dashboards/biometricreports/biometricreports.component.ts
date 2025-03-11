@@ -231,7 +231,7 @@ export class BiometricreportsComponent {
       alert("No table data available!");
       return;
     }
-  
+
     // Extract table headers
     const headers: string[] = [];
     table.querySelectorAll("thead tr th").forEach(th => {
