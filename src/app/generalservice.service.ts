@@ -71,4 +71,14 @@ getLoginResponse(){
  
   }
 
+  // new API
+  getEmployeeList(){
+    return this.http.get(environment.baseUrl+'get/employeeList');
+  }
+
+  combinationOfMonthAndYear(obj){
+    return this.http.post(environment.baseUrl+'get/combinationOfMonthAndYear',obj);
+ 
+  }
+
 }

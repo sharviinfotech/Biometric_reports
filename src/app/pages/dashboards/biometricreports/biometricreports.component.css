@@ -40,7 +40,7 @@ th, td {
     width: 400px;
     flex-shrink: 0;
     background: white;
-    position: sticky;
+  
     left: 0;
     z-index: 2;
     table-layout: fixed; /* Ensure columns have fixed width */
@@ -48,7 +48,7 @@ th, td {
   
   .fixed-table th, .fixed-table td {
     border: 1px solid black;
-    padding: 13px;
+    padding: 5px;
     text-align: left;
     width: 100px; /* Ensure consistency */
   }

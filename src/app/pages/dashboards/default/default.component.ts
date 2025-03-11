@@ -60,7 +60,7 @@ export class DefaultComponent {  // ... (other properties)
   }
  
   ngOnInit(): void {
-    this.getAllInvoice();
+    // this.getAllInvoice();
   }
 
   getAllInvoice() {

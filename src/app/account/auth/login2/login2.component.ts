@@ -101,23 +101,23 @@ export class Login2Component implements OnInit {
    * Form submit
    */
   // dynamic login below 
-  onSubmit() {
+  // onSubmit() {
  
-    if(this.loginForm.invalid == true){
-      this.submitted = true;
-    }else{
-      const userName = this.f['userName'].value; // Get the username from the form
-      const password = this.f['password'].value; // Get the password from the form
+  //   if(this.loginForm.invalid == true){
+  //     this.submitted = true;
+  //   }else{
+  //     const userName = this.f['userName'].value; // Get the username from the form
+  //     const password = this.f['password'].value; // Get the password from the form
  
-      // Login Api
-      // this.store.dispatch(login({ userName: userName, password: password }));
+  //     // Login Api
+  //     // this.store.dispatch(login({ userName: userName, password: password }));
    
-      this.login(userName, password)
-    }
+  //     this.login(userName, password)
+  //   }
    
  
    
-  }
+  // }
   showForgotPasswordScreen() {
     this.showForgotPassword = true; 
     this.successMessage = '';
@@ -173,41 +173,41 @@ export class Login2Component implements OnInit {
  
 
   // local login without API
-  // onSubmit() {
+  onSubmit() {
  
-  //   if(this.loginForm.invalid == true){
-  //     this.submitted = true;
-  //   }else{
-  //     const userName = this.f['userName'].value; // Get the username from the form
-  //     const password = this.f['password'].value; // Get the password from the form
+    if(this.loginForm.invalid == true){
+      this.submitted = true;
+    }else{
+      const userName = this.f['userName'].value; // Get the username from the form
+      const password = this.f['password'].value; // Get the password from the form
  
-  //     // Login Api
-  //     // this.store.dispatch(login({ userName: userName, password: password }));
+      // Login Api
+      // this.store.dispatch(login({ userName: userName, password: password }));
      
-  //       const  response   ={
-  //           "message": "Login Successful",
-  //           "status": 200,
-  //           "data": {
-  //               "userName": "1919",
-  //               "userEmail": "sunil@gmail.com",
-  //               "userUniqueId": 50,
-  //               "userStatus": true,
-  //               "isValid": true,
-  //               "userActivity": "admin"
-  //           },
-  //           "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YTA3NzJiMDg1ZjM5ODNkYWQ3N2Y1MyIsInVzZXJOYW1lIjoiMTkxOSIsImlhdCI6MTczODY1MzQyMiwiZXhwIjoxNzM4NjU3MDIyfQ.eljCCW-80W4gWJt0GhJPayd76Xmi7EZOFoOh3SRCP2I"
-  //       }
-  //         this.service.setLoginResponse(response);
-  //         localStorage.setItem('currentUser', JSON.stringify(response || { token: response.token }));
-  //         const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-  //         this.router.navigate([returnUrl], { skipLocationChange: true });
+        const  response   ={
+            "message": "Login Successful",
+            "status": 200,
+            "data": {
+                "userName": "1919",
+                "userEmail": "sunil@gmail.com",
+                "userUniqueId": 50,
+                "userStatus": true,
+                "isValid": true,
+                "userActivity": "admin"
+            },
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YTA3NzJiMDg1ZjM5ODNkYWQ3N2Y1MyIsInVzZXJOYW1lIjoiMTkxOSIsImlhdCI6MTczODY1MzQyMiwiZXhwIjoxNzM4NjU3MDIyfQ.eljCCW-80W4gWJt0GhJPayd76Xmi7EZOFoOh3SRCP2I"
+        }
+          this.service.setLoginResponse(response);
+          localStorage.setItem('currentUser', JSON.stringify(response || { token: response.token }));
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+          this.router.navigate([returnUrl], { skipLocationChange: true });
  
-  //     // this.login(userName, password)
-  //   }
+      // this.login(userName, password)
+    }
    
  
    
-  // }
+  }
   // goBackToLogin() {
   //   this.showForgotPassword = false;
   //   this.successMessage = '';

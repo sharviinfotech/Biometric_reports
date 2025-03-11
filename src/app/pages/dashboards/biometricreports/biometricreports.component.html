@@ -5,6 +5,7 @@
         <label>Select Month: </label>
         <select [(ngModel)]="selectedMonth" (change)="generateTableHeaders()" 
             >
+            <!-- <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option> -->
             <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
         </select>
     </div>
@@ -34,11 +35,12 @@
     
         <!-- Download Button -->
         <div *ngIf="selectedFormat" class="col-lg-2 mt-4">
-            <button (click)="downloadFile()" 
+            <button (click)="downloadFile()"
                 style="height: 35px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
                 Download
             </button>
         </div>
+        
         </div>
 </div>
 
@@ -98,7 +100,7 @@
 
 
         <!-- Scrollable Section -->
-        <div class="scrollable-container" style="overflow-x: auto; max-width: 100%;">
+        <!-- <div class="scrollable-container" style="overflow-x: auto; max-width: 100%;">
             <table class="scrollable-table">
                 <thead>
                     <tr>
@@ -115,6 +117,45 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
+        </div> -->
+        <!-- Scrollable Container for Table -->
+<!-- Scrollable Container for Table -->
+<div class="scrollable-container" style="overflow-x: auto; max-width: 100%;">
+    <table class="scrollable-table">
+        <thead>
+            <tr>
+                <th *ngFor="let day of daysInMonth" 
+                    style="width: 80px; font-size: 10px; text-align: center;">
+                    {{ day.day }} <br> {{ day.weekday }}
+                </th>
+                <th style="width: 100px; background: lightblue;">Total</th> <!-- Row Totals -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let employee of filteredEmployeesData">
+                <td *ngFor="let day of daysInMonth" style="width: 80px; text-align: center;">
+                    {{ employee.attendance[day.day] || 0 }}
+                </td>
+                <td style="width: 100px; font-weight: bold; background: lightblue; text-align: center;">
+                    {{ employee.total }}
+                </td> <!-- Row-wise Total -->
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td *ngFor="let total of columnTotals" style="font-weight: bold; background: lightblue; text-align: center;">
+                    {{ total }}
+                </td>
+                <td style="font-weight: bold; background: lightblue; text-align: center;">
+                    {{ grandTotal }}
+                </td> <!-- Grand Total -->
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+
+
     </div>
 </div>
+

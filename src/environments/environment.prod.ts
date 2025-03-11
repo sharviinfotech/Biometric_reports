@@ -11,5 +11,5 @@ export const environment = {
     appId: '',
     measurementId: ''
   },
-  baseUrl:'http://localhost:3000/api/invoice/authenticationLogin',
+  baseUrl:'http://localhost:3000/api/',
 };
