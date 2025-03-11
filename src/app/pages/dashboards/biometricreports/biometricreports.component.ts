@@ -120,7 +120,7 @@ export class BiometricreportsComponent {
     this.populateYears();
     this.generateTableHeaders();
     this.initializeYears();
-    // this.updateDaysInMonth();
+    this.updateDaysInMonth();
     // this.generateDaysInMonth;
     // Ensure each employee has a total
   this.filteredEmployeesData = this.employees.map(employee => ({
@@ -156,16 +156,14 @@ export class BiometricreportsComponent {
     
     
     this.daysInMonth = [];
-    this.updateDaysInMonth();
-    this.filteredEmployees();  // Ensure filtering is applied when the month changes
-    this.calculateTotals();   
+    
 
     for (let i = 1; i <= days; i++) {
       const date = new Date(this.selectedYear, this.selectedMonth - 1, i);
       const weekday = date.toLocaleDateString('en-US', { weekday: 'short' });
       this.daysInMonth.push({ day: i, weekday });
     }
-    this.totalEmpandAtt()
+    // this.totalEmpandAtt()
   }
   // downloadFile() {
   //   if (!this.selectedFormat) {
