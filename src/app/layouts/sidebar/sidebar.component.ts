@@ -147,42 +147,42 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   /**
    * Initialize
    */
-  // initialize(): void {
-  //   console.log("this.menuItems",MENU)
-  //   this.menuItems = MENU;
-  //   console.log("this.menuItems",this.menuItems)
-  // }
-
   initialize(): void {
-    console.log("Original MENU:", MENU);
+    console.log("this.menuItems",MENU)
+    this.menuItems = MENU;
+    console.log("this.menuItems",this.menuItems)
+  }
 
-    if (!this.loginData?.data?.userActivity) {
-        console.log("No user activity found!");
-        return;
-    }
+//   initialize(): void {
+//     console.log("Original MENU:", MENU);
 
-    const userActivity = this.loginData.data.userActivity;
+//     if (!this.loginData?.data?.userActivity) {
+//         console.log("No user activity found!");
+//         return;
+//     }
 
-    // Define access rules
-    const accessMap = {
-        'ADMIN': MENU, // Admin gets all components
-        'MD': [
-            { id: 2, label: "Dashboard", link: "/dashboard", parentId: 2, icon: "bx-home-circle" },
-            { id: 6, label: "Invoice Decision", link: "/InvoiceDecision", parentId: 1, icon: "bx-sync" },
-            { id: 7, label: "Invoice Reports", link: "/InvoiceReports", parentId: 1, icon: "bx bx-spreadsheet" }
-        ],
-        'ACCOUNTS': [
-            { id: 2, label: "Dashboard", link: "/dashboard", parentId: 2, icon: "bx-home-circle" },
-            { id: 7, label: "Invoice Reports", link: "/InvoiceReports", parentId: 1, icon: "bx bx-spreadsheet" },
-            { id: 3, label: "Customer Creation", link: "/CustomerCreation", parentId: 1, icon: "bx-user-check" }
-        ]
-    };
+//     const userActivity = this.loginData.data.userActivity;
 
-    // Assign the allowed menu items based on user role
-    this.menuItems = accessMap[userActivity] || [];
+//     // Define access rules
+//     const accessMap = {
+//         'ADMIN': MENU, // Admin gets all components
+//         'MD': [
+//             { id: 2, label: "Dashboard", link: "/dashboard", parentId: 2, icon: "bx-home-circle" },
+//             { id: 6, label: "Invoice Decision", link: "/InvoiceDecision", parentId: 1, icon: "bx-sync" },
+//             { id: 7, label: "Invoice Reports", link: "/InvoiceReports", parentId: 1, icon: "bx bx-spreadsheet" }
+//         ],
+//         'ACCOUNTS': [
+//             { id: 2, label: "Dashboard", link: "/dashboard", parentId: 2, icon: "bx-home-circle" },
+//             { id: 7, label: "Invoice Reports", link: "/InvoiceReports", parentId: 1, icon: "bx bx-spreadsheet" },
+//             { id: 3, label: "Customer Creation", link: "/CustomerCreation", parentId: 1, icon: "bx-user-check" }
+//         ]
+//     };
 
-    console.log("Filtered menuItems:", this.menuItems);
-}
+//     // Assign the allowed menu items based on user role
+//     this.menuItems = accessMap[userActivity] || [];
+
+//     console.log("Filtered menuItems:", this.menuItems);
+// }
 
 
 

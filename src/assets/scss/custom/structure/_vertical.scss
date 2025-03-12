@@ -502,9 +502,10 @@ body[data-sidebar="dark"] {
 
 body[data-layout="horizontal"] {
     .main-content {
-        margin-left: 0 !important;
+        margin-left: 0 ;
     }
 }
+
 
 // Compact Sidebar
 
@@ -525,6 +526,9 @@ body[data-sidebar-size="small"] {
 
     .main-content {
         margin-left: $sidebar-width-sm;
+    }
+    .main-content {
+        margin-left: 70 ;
     }
 
     .footer {

@@ -10,7 +10,15 @@ import { Component, OnInit,AfterViewInit, ViewChild, ElementRef, ChangeDetectorR
 import { GeneralserviceService } from 'src/app/generalservice.service';
 import { NgApexchartsModule,ChartComponent } from 'ng-apexcharts';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-
+interface Employee {
+  sno: number;
+  codeNo: string;
+  name: string;
+  department: string;
+  contractor: string;
+  attendance: Record<number, number>;  // Ensure attendance keys are numbers with number values
+  total?: number;
+}
 @Component({
   selector: 'app-biometricreports',
   templateUrl: './biometricreports.component.html',
@@ -39,7 +47,8 @@ export class BiometricreportsComponent {
     };
     total: number;  // ✅ Add `total`
   }[];
-  totalEmployeeAndAttendance: any;
+  totalEmployeeAndAttendance: any[] = []; // ✅ Initialize as an empty array
+
   
 
   ngOnInit() {
@@ -72,49 +81,49 @@ export class BiometricreportsComponent {
   selectedYear: number = new Date().getFullYear();
   daysInMonth: { day: number; weekday: string }[] = [];
   selectedFormat: string = '';
-
-  employees = [
-    {
-      sno: 1,
-      codeNo: '54002',
-      name: 'Deepak Dubey',
-      department: 'Electrical',
-      contractor: 'Bhagwati Contractor',
-      attendance: { 1: 8, 2: 0, 3: 4, 4: 0, 5: 6, 6: 0, 7: 8, 8: 9 },
-    },
-    {
-      sno: 2,
-      codeNo: '54003',
-      name: 'Abhishek Sharma',
-      department: 'Mechanical',
-      contractor: 'Bhagwati Contractor',
-      attendance: { 1: 0, 2: 0, 3: 8, 4: 0, 5: 0, 6: 8, 7: 16, 8: 8 },
-    },
-    {
-      sno: 3,
-      codeNo: '54004',
-      name: 'Rohit Tripathi',
-      department: 'Civil',
-      contractor: 'Bhagwati Contractor',
-      attendance: { 1: 8, 2: 0, 3: 0, 4: 0, 5: 8, 6: 14.5, 7: 6.5, 8: 0 },
-    },
-    {
-      sno: 4,
-      codeNo: '54006',
-      name: 'Danbahadur Singh',
-      department: 'Production',
-      contractor: 'Bhagwati Contractor',
-      attendance: { 1: 16, 2: 0, 3: 8, 4: 0, 5: 8, 6: 7, 7: 16, 8: 0 },
-    },
-    {
-      sno: 5,
-      codeNo: '54007',
-      name: 'Munna Dubey',
-      department: 'Safety',
-      contractor: 'Bhagwati Contractor',
-      attendance: { 1: 8, 2: 0, 3: 0, 4: 0, 5: 0, 6: 8, 7: 8, 8: 0 },
-    },
-  ];
+  employees :any
+  // employees = [
+  //   {
+  //     sno: 1,
+  //     codeNo: '54002',
+  //     name: 'Deepak Dubey',
+  //     department: 'Electrical',
+  //     contractor: 'Bhagwati Contractor',
+  //     attendance: { 1: 8, 2: 0, 3: 4, 4: 0, 5: 6, 6: 0, 7: 8, 8: 9 },
+  //   },
+  //   {
+  //     sno: 2,
+  //     codeNo: '54003',
+  //     name: 'Abhishek Sharma',
+  //     department: 'Mechanical',
+  //     contractor: 'Bhagwati Contractor',
+  //     attendance: { 1: 0, 2: 0, 3: 8, 4: 0, 5: 0, 6: 8, 7: 16, 8: 8 },
+  //   },
+  //   {
+  //     sno: 3,
+  //     codeNo: '54004',
+  //     name: 'Rohit Tripathi',
+  //     department: 'Civil',
+  //     contractor: 'Bhagwati Contractor',
+  //     attendance: { 1: 8, 2: 0, 3: 0, 4: 0, 5: 8, 6: 14.5, 7: 6.5, 8: 0 },
+  //   },
+  //   {
+  //     sno: 4,
+  //     codeNo: '54006',
+  //     name: 'Danbahadur Singh',
+  //     department: 'Production',
+  //     contractor: 'Bhagwati Contractor',
+  //     attendance: { 1: 16, 2: 0, 3: 8, 4: 0, 5: 8, 6: 7, 7: 16, 8: 0 },
+  //   },
+  //   {
+  //     sno: 5,
+  //     codeNo: '54007',
+  //     name: 'Munna Dubey',
+  //     department: 'Safety',
+  //     contractor: 'Bhagwati Contractor',
+  //     attendance: { 1: 8, 2: 0, 3: 0, 4: 0, 5: 0, 6: 8, 7: 8, 8: 0 },
+  //   },
+  // ];
   constructor( private service: GeneralserviceService,
       private spinner: NgxSpinnerService,private cdr: ChangeDetectorRef) {
     this.populateYears();
@@ -123,10 +132,7 @@ export class BiometricreportsComponent {
     this.updateDaysInMonth();
     // this.generateDaysInMonth;
     // Ensure each employee has a total
-  this.filteredEmployeesData = this.employees.map(employee => ({
-    ...employee,
-    total: Object.values(employee.attendance).reduce((sum, hours) => sum + hours, 0),
-  }));
+  
 
   this.calculateTotals(); // ✅ Ensure totals are computed after initialization
 
@@ -163,7 +169,7 @@ export class BiometricreportsComponent {
       const weekday = date.toLocaleDateString('en-US', { weekday: 'short' });
       this.daysInMonth.push({ day: i, weekday });
     }
-    // this.totalEmpandAtt()
+    this.totalEmpandAtt()
   }
   // downloadFile() {
   //   if (!this.selectedFormat) {
@@ -190,13 +196,7 @@ export class BiometricreportsComponent {
     this.years = Array.from({ length: 10 }, (_, i) => currentYear - 5 + i); // Generates years from (currentYear - 5) to (currentYear + 4)
   }
 
-  updateDaysInMonth() {
-    const daysCount = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
-    this.daysInMonth = Array.from({ length: daysCount }, (_, i) => ({
-      day: i + 1,
-      weekday: new Date(this.selectedYear, this.selectedMonth - 1, i + 1).toLocaleString('en-us', { weekday: 'short' }),
-    }));
-  }
+
 
   onMonthChange() {
     this.updateDaysInMonth();
@@ -280,50 +280,7 @@ export class BiometricreportsComponent {
     saveAs(data, 'EmployeeData.xlsx');
   }
 
-  filteredEmployees() {
-    console.log("this.searchTerm", this.searchTerm);
   
-    // Check if any search field has a value
-    const hasSearchTerm = Object.values(this.searchTerm).some(value => value.trim() !== '');
-  
-    // Always update filteredEmployeesData, even when no filters are applied
-    this.filteredEmployeesData = hasSearchTerm
-      ? this.employees
-          .filter((employee) => {
-            const codeNoMatch = !this.searchTerm.codeNo || employee.codeNo.includes(this.searchTerm.codeNo);
-            const nameMatch = !this.searchTerm.name || employee.name.toLowerCase().includes(this.searchTerm.name.toLowerCase());
-            const departmentMatch = !this.searchTerm.department || employee.department.toLowerCase().includes(this.searchTerm.department.toLowerCase());
-            const contractorMatch = !this.searchTerm.contractor || employee.contractor.toLowerCase().includes(this.searchTerm.contractor.toLowerCase());
-  
-            return codeNoMatch && nameMatch && departmentMatch && contractorMatch;
-          })
-          .map(employee => ({
-            ...employee,
-            total: Object.values(employee.attendance).reduce((sum, hours) => sum + hours, 0), // ✅ Ensure `total` is recalculated
-          }))
-      : this.employees.map(employee => ({
-          ...employee,
-          total: Object.values(employee.attendance).reduce((sum, hours) => sum + hours, 0), // ✅ Reset total when no search filter is applied
-        }));
-  
-    this.calculateTotals(); // ✅ Recalculate totals after filtering
-  
-    console.log("Updated Table Data:", this.filteredEmployeesData);
-  }
-  
-  
-  calculateTotals() {
-    // Compute column-wise totals
-    this.columnTotals = this.daysInMonth.map(day => 
-      this.filteredEmployeesData.reduce((sum, emp) => sum + (emp.attendance[day.day] || 0), 0)
-    );
-  
-    // Compute grand total (sum of all row totals)
-    this.grandTotal = this.filteredEmployeesData.reduce((sum, emp) => sum + emp.total, 0);
-  
-    console.log("Column Totals:", this.columnTotals);
-    console.log("Grand Total:", this.grandTotal);
-  }
   // calculateTotals() {
   //   // Get the actual number of days in the selected month
   //   let daysCount = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
@@ -348,59 +305,141 @@ export class BiometricreportsComponent {
   //   console.log("Column Totals:", this.columnTotals);
   //   console.log("Grand Total:", this.grandTotal);
   // }
+  filteredEmployees() {
+    console.log("this.searchTerm", this.searchTerm);
 
- 
+    if (!this.employees || !Array.isArray(this.employees) || this.employees.length === 0) {
+        console.warn("Employees data is missing or empty:", this.employees);
+        return;
+    }
 
-  employeeList() {
-    
-      this.spinner.show();
-      this.service.getEmployeeList().subscribe(
-        (res: any) => {
-          this.spinner.hide();
-         const response = res;
-          console.log("response", response);
-        
-        },
-        error => {
-          this.spinner.hide();
-          console.error("Error fetching invoices", error);
-        }
-);
-   
-   
+    console.log("Employees Data Before Filtering:", this.employees);
+
+    const hasSearchTerm = Object.values(this.searchTerm).some(value => value.trim() !== '');
+
+    this.filteredEmployeesData = hasSearchTerm
+        ? this.employees
+            .filter(employee => {
+                const codeNoMatch = !this.searchTerm.codeNo || 
+                                    employee.codeNo.toString().includes(this.searchTerm.codeNo.toString());
+                const nameMatch = !this.searchTerm.name || 
+                                  employee.name.toLowerCase().includes(this.searchTerm.name.toLowerCase());
+                const departmentMatch = !this.searchTerm.department || 
+                                        employee.department.toLowerCase().includes(this.searchTerm.department.toLowerCase());
+                const contractorMatch = !this.searchTerm.contractor || 
+                                        employee.contractor.toLowerCase().includes(this.searchTerm.contractor.toLowerCase());
+                return codeNoMatch && nameMatch && departmentMatch && contractorMatch;
+            })
+            .map(employee => ({
+                ...employee,
+                total: Object.values(employee.attendance || {}).reduce((sum, hours) => Number(sum) + Number(hours), 0),
+            }))
+        : this.employees.map(employee => ({
+            ...employee,
+            total: Object.values(employee.attendance || {}).reduce((sum, hours) => Number(sum) + Number(hours), 0),
+        }));
+
+    console.log("Updated Table Data:", this.filteredEmployeesData);
+    this.calculateTotals();
+}
+
+
+
+  
+  
+  
+  calculateTotals() {
+    if (!Array.isArray(this.filteredEmployeesData)) {
+      console.error("filteredEmployeesData is undefined or not an array", this.filteredEmployeesData);
+      return; // Exit function to avoid error
+    }
+  
+    this.filteredEmployeesData.forEach(emp => {
+      const attendanceData = emp.attendance || { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
+      emp.total = Object.values(attendanceData).reduce((sum, hours) => sum + Number(hours || 0), 0);
+    });
   }
+  
+
   totalEmpandAtt() {
-    this.totalEmployeeAndAttendance = []
+    this.totalEmployeeAndAttendance = [];
     this.spinner.show();
-   let obj= {
+
+    let obj = {
       "month": this.selectedMonth,
       "year": this.selectedYear,
       "EmployeeId": null
-    }
-     
+    };
+
     this.service.combinationOfMonthAndYear(obj).subscribe(
       (res: any) => {
         this.spinner.hide();
-       const response = res;
-        console.log("totalEmpandAtt", response);
-        if(response.statusCode == 200){
-          this.totalEmployeeAndAttendance = response.responseData
-        }else{
-          this.totalEmployeeAndAttendance = []
+        console.log("API Response:", res);
+
+        if (res?.statusCode === 200 && Array.isArray(res.responseData)) {
+          this.totalEmployeeAndAttendance = res.responseData;
+
+          // ✅ Assign fetched data to `this.employees` for filtering to work
+          this.employees = this.totalEmployeeAndAttendance.map((emp, index) => {
+            const attendanceData = this.formatAttendance(emp.attendanceRecords);
+            return {
+              sno: index + 1,
+              codeNo: String(emp.EmployeeId || ''), 
+              name: String(emp.EmployeeName || ''),  
+              department: String(emp.DepartmentId || ''),  
+              contractor: String(emp.Designation || ''),  
+              attendance: attendanceData, 
+              total: Object.values(attendanceData).reduce((sum, hours) => sum + Number(hours), 0),
+            };
+          });
+
+          console.log("this.employees Data:", this.employees);
+          this.filteredEmployees(); // ✅ Call filter function after setting employees
+        } else {
+          this.employees = [];
+          this.filteredEmployeesData = [];
+          this.columnTotals = [];
+          this.grandTotal = 0;
         }
-      console.log("this.totalEmployeeAndAttendance",this.totalEmployeeAndAttendance)
+
+        console.log("Processed Employee Data:", this.filteredEmployeesData);
       },
       error => {
         this.spinner.hide();
-        console.error("Error fetching invoices", error);
+        console.error("Error fetching employee attendance", error);
       }
-);
- 
- 
+    );
 }
+
   
-
-
-
-
+  
+  formatAttendance(attendanceRecords: any[] | undefined): { 1: number; 2: number; 3: number; 4: number; 5: number; 6: number; 7: number; 8: number; } {
+    // Ensure attendanceRecords is an array, if not, return default structure
+    if (!Array.isArray(attendanceRecords)) {
+      return { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
+    }
+  
+    const formattedAttendance: { [key: number]: number } = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
+  
+    attendanceRecords.forEach(record => {
+      if (record && record.AttendanceDate) {
+        const day = new Date(record.AttendanceDate).getDate(); // Extract day of the month
+        if (day >= 1 && day <= 8) {
+          formattedAttendance[day] = record.Present || 0; // Set Present value
+        }
+      }
+    });
+  
+    return formattedAttendance as { 1: number; 2: number; 3: number; 4: number; 5: number; 6: number; 7: number; 8: number; };
+  }
+  
+  
+  
+  updateDaysInMonth() {
+    const daysCount = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
+    this.daysInMonth = Array.from({ length: daysCount }, (_, i) => ({
+      day: i + 1,
+      weekday: new Date(this.selectedYear, this.selectedMonth - 1, i + 1).toLocaleString('en-us', { weekday: 'short' }),
+    }));
+  }
 }
