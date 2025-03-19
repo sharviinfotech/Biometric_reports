@@ -186,6 +186,13 @@ export const MENU: MenuItem[] = [
         label: 'Reports',
         link: '/Biometricreports',
         icon: 'bx bx-spreadsheet',
+    },
+    {
+        id: 3,
+        label: 'User Creation',
+        link: '/UserCreation',
+        icon: 'bx bx-spreadsheet',
     }
+    
 ];
 

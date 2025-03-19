@@ -6,7 +6,7 @@ import { login } from 'src/app/store/Authentication/authentication.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { FormBuilder, FormGroup} from '@angular/forms';
-
+import { changesLayout } from 'src/app/store/layouts/layout.actions';
 import { CommonModule } from '@angular/common';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { HttpClient } from '@angular/common/http';
@@ -201,6 +201,15 @@ export class Login2Component implements OnInit {
           localStorage.setItem('currentUser', JSON.stringify(response || { token: response.token }));
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
           this.router.navigate([returnUrl], { skipLocationChange: true });
+          this.store.dispatch(changesLayout({ layoutMode: 'horizontal' }));
+          Swal.fire({
+            title: response.message,
+            text: `Login Successful`,
+            icon: 'success',
+            timer: 5000, // 10 seconds
+            timerProgressBar: true, // Shows a progress bar
+            // background: "url('assets/images/Bio1.jpg') center/cover no-repeat",
+          });
  
       // this.login(userName, password)
     }

@@ -80,5 +80,9 @@ getLoginResponse(){
     return this.http.post(environment.baseUrl+'get/combinationOfMonthAndYear',obj);
  
   }
+  deteleGlobal(obj){
+    return this.http.post(environment.baseUrl+'invoice/deteleGlobal',obj);
+ 
+  }
 
 }

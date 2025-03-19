@@ -8,6 +8,7 @@ import { BlogComponent } from './blog/blog.component';
 import { JobsComponent } from "./jobs/jobs.component";
 import { SampleComponentComponent } from './default/sample-component/sample-component.component';
 import { BiometricreportsComponent } from './biometricreports/biometricreports.component';
+import { UserCreationComponent } from './user-creation/user-creation.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,10 @@ const routes: Routes = [
     {
         path: 'Biometricreports',
         component: BiometricreportsComponent
+    },
+    {
+        path: 'UserCreation',
+        component: UserCreationComponent
     },
    
     // {

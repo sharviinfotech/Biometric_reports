@@ -8,10 +8,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BiometricreportsComponent } from './biometricreports/biometricreports.component';
+import { UserCreationComponent } from './user-creation/user-creation.component';
 
 @NgModule({
   declarations: [
     SampleComponentComponent,
+    // UserCreationComponent,
     // BiometricreportsComponent,
     // InvoiceUserCreationComponent,
     // InvoiceReportsComponent,
