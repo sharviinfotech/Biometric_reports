@@ -5,6 +5,11 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class GeneralserviceService {
+
+  allInvoices: any[] = []; // Store all invoices
+  page: number = 1;
+  pageSize: number = 10; // Adjust as needed
+  data: any;
  
   setLoginDataList: any;
   userList: any;

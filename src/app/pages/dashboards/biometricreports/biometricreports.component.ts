@@ -47,7 +47,17 @@ export class BiometricreportsComponent {
     };
     total: number;  // ✅ Add `total`
   }[];
+  data: any[] = []; // Full dataset
+  paginatedData: any[] = []; // Visible data
+  pageSize = 10;
+  currentPage = 1;
+  totalPages = 0;
   totalEmployeeAndAttendance: any[] = []; // ✅ Initialize as an empty array
+  allInvoiceList: any;
+  pages: number[] = [];
+  totalItems: 0;
+  itemsPerPage: number = 10;
+  
 
   
 
@@ -59,8 +69,13 @@ export class BiometricreportsComponent {
     document.body.removeAttribute('data-sidebar-small');
     document.body.setAttribute('data-topbar', 'dark');
     this.updateDaysInMonth(); 
+    this. totalEmpandAtt();
     // this.employeeList()
+    this.calculateTotalPages();
+   
   }
+
+
   months = [
     { name: 'January', value: 1 },
     { name: 'February', value: 2 },
@@ -75,6 +90,7 @@ export class BiometricreportsComponent {
     { name: 'November', value: 11 },
     { name: 'December', value: 12 },
   ];
+
 
   years: number[] = [];
   selectedMonth: number = new Date().getMonth() + 1;
@@ -124,19 +140,64 @@ export class BiometricreportsComponent {
   //     attendance: { 1: 8, 2: 0, 3: 0, 4: 0, 5: 0, 6: 8, 7: 8, 8: 0 },
   //   },
   // ];
-  constructor( private service: GeneralserviceService,
+  constructor( public service: GeneralserviceService,
       private spinner: NgxSpinnerService,private cdr: ChangeDetectorRef) {
+        this.service = service;
     this.populateYears();
     this.generateTableHeaders();
     this.initializeYears();
     this.updateDaysInMonth();
     // this.generateDaysInMonth;
     // Ensure each employee has a total
-  
-
-  this.calculateTotals(); // ✅ Ensure totals are computed after initialization
-
   }
+ 
+calculateTotalPages() {
+  this.totalPages = Math.ceil(this.allInvoiceList.length / this.pageSize);
+  this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+}
+  onPageSizeChange() {
+    this.currentPage = 1; // Reset to first page
+    this.pageChanged(1);
+    this.calculateTotalPages();
+  }
+  loadInvoices() {
+    this.totalPages = Math.ceil(this.allInvoiceList.length / this.itemsPerPage);
+    this.calculateTotalPages();
+    this.updatePagination();
+  }
+
+  pageChanged(newpage: number) {
+    if (newpage >= 1 && newpage <= this.totalPages) {
+      this.currentPage = newpage;
+      this.updatePagination();
+      
+    }
+  }
+  updatePagination() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    this.paginatedData = this.data.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  generatePages() {
+    this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  goToPage(page: number) {
+    this.currentPage = page;
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+  
 
   populateYears() {
     const currentYear = new Date().getFullYear();
@@ -154,6 +215,9 @@ export class BiometricreportsComponent {
   //   }
   //   return daysArray;
   // }
+  
+
+  
   
   generateTableHeaders() {
     const days = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
@@ -340,7 +404,7 @@ export class BiometricreportsComponent {
         }));
 
     console.log("Updated Table Data:", this.filteredEmployeesData);
-    this.calculateTotals();
+   
 }
 
 
@@ -354,10 +418,16 @@ export class BiometricreportsComponent {
       return; // Exit function to avoid error
     }
   
-    this.filteredEmployeesData.forEach(emp => {
-      const attendanceData = emp.attendance || { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
-      emp.total = Object.values(attendanceData).reduce((sum, hours) => sum + Number(hours || 0), 0);
-    });
+     this.columnTotals = this.daysInMonth.map(day => 
+      this.filteredEmployeesData.reduce((sum, emp) => sum + (emp.attendance[day.day] || 0), 0)
+    );
+
+    // Compute grand total (sum of column totals)
+    this.grandTotal = this.columnTotals.reduce((sum, total) => sum + total, 0);
+
+    console.log("Column Totals:", this.columnTotals);
+    console.log("Grand Total:", this.grandTotal);
+
   }
   
 
@@ -395,6 +465,8 @@ export class BiometricreportsComponent {
 
           console.log("this.employees Data:", this.employees);
           this.filteredEmployees(); // ✅ Call filter function after setting employees
+          this.calculateTotals();
+          this. updatePagination();
         } else {
           this.employees = [];
           this.filteredEmployeesData = [];

@@ -73,16 +73,31 @@
     </div>
     
 </div>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <label class="d-inline-flex align-items-center">
+        Show
+        <select [(ngModel)]="pageSize" (ngModelChange)="onPageSizeChange()" [ngModelOptions]="{ standalone: true }">
+          <option [value]="5">5</option>
+          <option [value]="10">10</option>
+          <option [value]="20">20</option>
+          <option [value]="25">25</option>
+          <option [value]="30">30</option>
+        </select>
+        entries
+      </label>
+    </div>
+  </div>
 <!-- Table Wrapper -->
 <div class="mt-2">
     <div class="table-container">
         <!-- Fixed Table -->
         <table class="fixed-table"  >
-            <thead>
+            <thead  style="width: 100px; height: 47px;">
                 <tr>
                     <th style="width: 50px;" class="text-nowrap">S.No</th>
                     <th style="width: 100px;" class="text-nowrap">Code No</th>
-                    <th style="width: 150px;" class="text-nowrap">Name of Employee</th>
+                    <th style="width: 200px;" class="text-nowrap">Name of Employee</th>
                     <th style="width: 150px;" class="text-nowrap">Department</th>
                     <th style="width: 150px;" class="text-nowrap">Contractor</th>
                 </tr>
@@ -96,7 +111,9 @@
                     <td class="text-nowrap">{{ employee.contractor }}</td>
                 </tr>
             </tbody>
+            <div class="bio"><strong>Total</strong></div>
         </table>
+        
 
 
         <!-- Scrollable Section -->
@@ -158,4 +175,32 @@
 
     </div>
 </div>
+<div class="row justify-content-center align-items-md-center mt-2">
+    <ul class="pagination">
+      <!-- Previous Button -->
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="currentPage > 1 && pageChanged(currentPage - 1)">
+          &laquo; Previous
+        </a>
+      </li>
+ 
+      <!-- Page Numbers -->
+      <li *ngFor="let page of pages" class="page-item" [class.active]="currentPage === page">
+        <a class="page-link" (click)="pageChanged(page)">
+          {{ page }}
+        </a>
+      </li>
+ 
+      <!-- Next Button -->
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="currentPage < totalPages && pageChanged(currentPage + 1)">
+          Next &raquo;
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+   
+
 
