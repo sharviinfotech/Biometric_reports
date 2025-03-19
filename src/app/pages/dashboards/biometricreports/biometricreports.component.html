@@ -63,7 +63,7 @@
     <!-- Department Input -->
     <div class="col-lg-3">
         <label>Department: </label>
-        <input type="text"  placeholder="Enter Department" class="form-control" [(ngModel)]="searchTerm.department" (keydown.enter)="filteredEmployees()" (keydown.tab)="filteredEmployees()" >
+        <input type="text"  placeholder="Enter Department" class="form-control" [(ngModel)]="searchTerm.DepartmentName" (keydown.enter)="filteredEmployees()" (keydown.tab)="filteredEmployees()" >
     </div>
 
     <!-- Contractor Input -->
@@ -107,7 +107,7 @@
                     <td class="text-nowrap">{{ employee.sno }}</td>
                     <td class="text-nowrap">{{ employee.codeNo }}</td>
                     <td class="text-nowrap">{{ employee.name }}</td>
-                    <td class="text-nowrap">{{ employee.department }}</td>
+                    <td class="text-nowrap">{{ employee.DepartmentName }}</td>
                     <td class="text-nowrap">{{ employee.contractor }}</td>
                 </tr>
             </tbody>

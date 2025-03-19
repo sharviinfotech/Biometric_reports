@@ -28,7 +28,7 @@ interface Employee {
 })
 export class BiometricreportsComponent {
   http: any;
-  searchTerm = { codeNo: '', name: '', department: '', contractor: '' };
+  searchTerm = { codeNo: '', name: '', department: '', contractor: '',DepartmentName:'' };
   // filteredEmployeesData: { sno: number; codeNo: string; name: string; department: string; contractor: string; attendance: { 1: number; 2: number; 3: number; 4: number; 5: number; 6: number; 7: number; 8: number; }; }[];
   columnTotals: number[] = [];
   rowTotals: number[] = [];
@@ -41,6 +41,7 @@ export class BiometricreportsComponent {
     name: string;
     department: string;
     contractor: string;
+    DepartmentName:string
     attendance: { 
       1: number; 2: number; 3: number; 4: number; 
       5: number; 6: number; 7: number; 8: number; 
@@ -388,8 +389,8 @@ calculateTotalPages() {
                                     employee.codeNo.toString().includes(this.searchTerm.codeNo.toString());
                 const nameMatch = !this.searchTerm.name || 
                                   employee.name.toLowerCase().includes(this.searchTerm.name.toLowerCase());
-                const departmentMatch = !this.searchTerm.department || 
-                                        employee.department.toLowerCase().includes(this.searchTerm.department.toLowerCase());
+                const departmentMatch = !this.searchTerm.DepartmentName || 
+                                        employee.DepartmentName.toLowerCase().includes(this.searchTerm.DepartmentName.toLowerCase());
                 const contractorMatch = !this.searchTerm.contractor || 
                                         employee.contractor.toLowerCase().includes(this.searchTerm.contractor.toLowerCase());
                 return codeNoMatch && nameMatch && departmentMatch && contractorMatch;
@@ -457,7 +458,8 @@ calculateTotalPages() {
               codeNo: String(emp.EmployeeId || ''), 
               name: String(emp.EmployeeName || ''),  
               department: String(emp.DepartmentId || ''),  
-              contractor: String(emp.Designation || ''),  
+              contractor: String(emp.Designation || ''), 
+              DepartmentName: String(emp.DepartmentName || ''),
               attendance: attendanceData, 
               total: Object.values(attendanceData).reduce((sum, hours) => sum + Number(hours), 0),
             };
