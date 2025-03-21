@@ -26,7 +26,7 @@ interface Employee {
   imports: [CommonModule, FormsModule, ReactiveFormsModule, BsDatepickerModule],
   standalone: true,
 })
-export class BiometricreportsComponent {
+export class BiometricreportsComponent implements OnInit  {
   http: any;
   searchTerm = { codeNo: '', name: '', department: '', contractor: '',DepartmentName:'' };
   // filteredEmployeesData: { sno: number; codeNo: string; name: string; department: string; contractor: string; attendance: { 1: number; 2: number; 3: number; 4: number; 5: number; 6: number; 7: number; 8: number; }; }[];
@@ -58,6 +58,8 @@ export class BiometricreportsComponent {
   pages: number[] = [];
   totalItems: 0;
   itemsPerPage: number = 10;
+  
+  
   
 
   
@@ -283,66 +285,247 @@ calculateTotalPages() {
       this.downloadExcel();
     }
   }
-
   downloadPDF() {
     const doc = new jsPDF('landscape'); // Set landscape mode
     doc.text('Employee Data', 14, 10); // Title at the top
   
     const table = document.querySelector('table') as HTMLTableElement;
-  
     if (!table) {
       alert("No table data available!");
       return;
     }
-
-    // Extract table headers
+  
+    // Extract table headers (static)
     const headers: string[] = [];
-    table.querySelectorAll("thead tr th").forEach(th => {
-      headers.push(th.textContent?.trim() || "");  // ✅ Use textContent with optional chaining
+    table.querySelectorAll("thead tr:nth-child(1) th").forEach(th => {
+      headers.push(th.textContent?.trim() || "");  
     });
   
-    // Extract table rows
+    // Extract table rows (static)
     const data: string[][] = [];
     table.querySelectorAll("tbody tr").forEach(row => {
       const rowData: string[] = [];
       row.querySelectorAll("td").forEach(td => {
-        rowData.push(td.textContent?.trim() || "");  // ✅ Use textContent with optional chaining
+        rowData.push(td.textContent?.trim() || "");  
       });
       data.push(rowData);
     });
   
+    // Extract dynamic columns (dates) from the scrollable table
+    const scrollableTable = document.querySelector('.scrollable-table') as HTMLTableElement;
+    if (scrollableTable) {
+      scrollableTable.querySelectorAll("thead tr:nth-child(1) th").forEach(th => {
+        headers.push(th.textContent?.trim() || "");  
+      });
+  
+      scrollableTable.querySelectorAll("tbody tr").forEach((row, rowIndex) => {
+        row.querySelectorAll("td").forEach(td => {
+          data[rowIndex].push(td.textContent?.trim() || "");  
+        });
+      });
+    }
+  
+    // Add the "Total" row to the data (convert numbers to strings)
+    const totalRow = ["Total", "", "", "", "", ...this.columnTotals.map(num => num.toString()), this.grandTotal.toString()];
+    data.push(totalRow);
+  
     // Generate PDF with autoTable
     autoTable(doc, {
-      head: [headers], // Use extracted headers
-      body: data,      // Use extracted rows
+      head: [headers],
+      body: data,
       startY: 20,
-      styles: { fontSize: 8 },
+      styles: {
+        fontSize: 7, // Reduce font size to fit more content
+        cellPadding: 1, // Reduce cell padding
+        overflow: 'linebreak',
+        valign: 'middle',
+        halign: 'center',
+        minCellHeight: 6, // Reduce row height
+      },
+      headStyles: {
+        fillColor: [22, 160, 133], 
+        textColor: [255, 255, 255], 
+        fontSize: 8, // Reduce header font size
+        fontStyle: 'bold',
+        halign: 'center', // Ensure header text is centered
+      },
+      bodyStyles: {
+        textColor: [0, 0, 0], 
+      },
       theme: 'grid',
+      columnStyles: {
+        0: { cellWidth: 8 }, // Reduce column widths
+        1: { cellWidth: 8 }, 
+        2: { cellWidth: 8 },
+        3: { cellWidth: 8 },
+        4: { cellWidth: 8 },
+        // Adjust dynamic columns
+        5: { cellWidth: 6 },
+        6: { cellWidth: 6 },
+        7: { cellWidth: 6 },
+        8: { cellWidth: 6 },
+        9: { cellWidth: 6 },
+        10: { cellWidth: 6 },
+        11: { cellWidth: 6 },
+        12: { cellWidth: 6 },
+        13: { cellWidth: 6 },
+        14: { cellWidth: 6 },
+        15: { cellWidth: 6 },
+        16: { cellWidth: 6 },
+        17: { cellWidth: 6 },
+        18: { cellWidth: 6 },
+        19: { cellWidth: 6 },
+        20: { cellWidth: 6 },
+        21: { cellWidth: 6 },
+        22: { cellWidth: 6 },
+        23: { cellWidth: 6 },
+        24: { cellWidth: 6 },
+        25: { cellWidth: 6 },
+        26: { cellWidth: 6 },
+        27: { cellWidth: 6 },
+        28: { cellWidth: 6 },
+        29: { cellWidth: 5 },
+        30: { cellWidth: 5 },
+        31: { cellWidth: 5 },
+        32: { cellWidth: 4 }
+      },
     });
   
     // Save the PDF
     doc.save('EmployeeData.pdf');
   }
+  // downloadPDF() {
+  //   const doc = new jsPDF('landscape');
+  //   doc.text('Employee Data', 14, 10);
+  
+  //   const table = document.querySelector('table') as HTMLTableElement;
+  //   if (!table) {
+  //     alert("No table data available!");
+  //     return;
+  //   }
+  
+  //   // Extract headers
+  //   const headers: string[] = [];
+  //   table.querySelectorAll("thead tr:nth-child(1) th").forEach(th => {
+  //     headers.push(th.textContent?.trim() || "");  
+  //   });
+  
+  //   // Extract table rows
+  //   const data: string[][] = [];
+  //   table.querySelectorAll("tbody tr").forEach(row => {
+  //     const rowData: string[] = [];
+  //     row.querySelectorAll("td").forEach(td => {
+  //       rowData.push(td.textContent?.trim() || "");  
+  //     });
+  //     data.push(rowData);
+  //   });
+  
+  //   autoTable(doc, {
+  //     head: [headers],
+  //     body: data,
+  //     startY: 20,
+  //     styles: {
+  //       fontSize: 8,
+  //       cellPadding: 4,
+  //       overflow: 'linebreak',
+  //       valign: 'middle',
+  //       halign: 'center',
+  //       minCellHeight: 10, 
+  //     },
+  //     headStyles: {
+  //       fillColor: [22, 1100, 133], 
+  //       textColor: [255, 255, 255], 
+  //       fontSize: 10,
+  //       fontStyle: 'bold',
+  //       halign: 'center',
+  //     },
+  //     bodyStyles: {
+  //       textColor: [0, 0, 0], 
+  //     },
+  //     theme: 'grid',
+  //     columnStyles: {
+  //       0: { cellWidth: 15 }, 
+  //       1: { cellWidth: 20 }, 
+  //       2: { cellWidth: 40 },
+  //       3: { cellWidth: 30 },
+  //       4: { cellWidth: 30 },
+  //       // Dynamic columns (dates)
+  //       5: { cellWidth: 10 },
+  //       6: { cellWidth: 10 },
+  //       7: { cellWidth: 10 },
+  //       8: { cellWidth: 10 },
+  //     },
+  //   });
+  
+  //   doc.save('EmployeeData.pdf');
+  // }
+  
+
+
+
+  
 
   downloadExcel() {
-    // Select table element
-    const table = document.querySelector('table');
+    // Select the main table element
+    const mainTable = document.querySelector('table') as HTMLTableElement;
     
-    if (!table) {
+    if (!mainTable) {
       alert("No table data available!");
       return;
     }
   
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table);
+    // Select the scrollable table element (dynamic columns)
+    const scrollableTable = document.querySelector('.scrollable-table') as HTMLTableElement;
+  
+    // Combine headers from both tables
+    const headers: string[] = [];
+    mainTable.querySelectorAll("thead tr:nth-child(1) th").forEach(th => {
+      headers.push(th.textContent?.trim() || "");
+    });
+  
+    if (scrollableTable) {
+      scrollableTable.querySelectorAll("thead tr:nth-child(1) th").forEach(th => {
+        headers.push(th.textContent?.trim() || "");
+      });
+    }
+  
+    // Combine rows from both tables
+    const data: any[][] = [];
+    mainTable.querySelectorAll("tbody tr").forEach((row, rowIndex) => {
+      const rowData: any[] = [];
+      row.querySelectorAll("td").forEach(td => {
+        rowData.push(td.textContent?.trim() || "");
+      });
+  
+      if (scrollableTable) {
+        const scrollableRow = scrollableTable.querySelectorAll("tbody tr")[rowIndex];
+        if (scrollableRow) {
+          scrollableRow.querySelectorAll("td").forEach(td => {
+            rowData.push(td.textContent?.trim() || "");
+          });
+        }
+      }
+  
+      data.push(rowData);
+    });
+  
+    // Add the "Total" row to the data
+    const totalRow = ["Total", "", "", "", "", ...this.columnTotals, this.grandTotal];
+    data.push(totalRow);
+  
+    // Create a new worksheet
+    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet([headers, ...data]);
+  
+    // Create a new workbook and append the worksheet
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    XLSX.utils.book_append_sheet(wb, ws, "EmployeeData");
   
     // Generate Excel file
     const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
   
     // Convert to Blob and save
-    const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    saveAs(data, 'EmployeeData.xlsx');
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(blob, `EmployeeData_${this.selectedMonth}_${this.selectedYear}.xlsx`);
   }
 
   
@@ -418,7 +601,7 @@ calculateTotalPages() {
       console.error("filteredEmployeesData is undefined or not an array", this.filteredEmployeesData);
       return; // Exit function to avoid error
     }
-  
+
      this.columnTotals = this.daysInMonth.map(day => 
       this.filteredEmployeesData.reduce((sum, emp) => sum + (emp.attendance[day.day] || 0), 0)
     );
@@ -432,6 +615,84 @@ calculateTotalPages() {
   }
   
 
+//   totalEmpandAtt() {
+//     this.totalEmployeeAndAttendance = [];
+//     this.spinner.show();
+
+//     let obj = {
+//       "month": this.selectedMonth,
+//       "year": this.selectedYear,
+//       "EmployeeId": null
+//     };
+
+//     this.service.combinationOfMonthAndYear(obj).subscribe(
+//       (res: any) => {
+//         this.spinner.hide();
+//         console.log("API Response:", res);
+
+//         if (res?.statusCode === 200 && Array.isArray(res.responseData)) {
+//           this.totalEmployeeAndAttendance = res.responseData;
+
+//           // ✅ Assign fetched data to `this.employees` for filtering to work
+//           this.employees = this.totalEmployeeAndAttendance.map((emp, index) => {
+//             const attendanceData = this.formatAttendance(emp.attendanceRecords);
+//             return {
+//               sno: index + 1,
+//               codeNo: String(emp.EmployeeId || ''), 
+//               name: String(emp.EmployeeName || ''),  
+//               department: String(emp.DepartmentId || ''),  
+//               contractor: String(emp.Designation || ''), 
+//               DepartmentName: String(emp.DepartmentName || ''),
+//               attendance: attendanceData, 
+//               total: Object.values(attendanceData).reduce((sum, hours) => sum + Number(hours), 0),
+//             };
+//           });
+
+//           console.log("this.employees Data:", this.employees);
+//           this.filteredEmployees(); // ✅ Call filter function after setting employees
+//           this.calculateTotals();
+//           this. updatePagination();
+//         } else {
+//           this.employees = [];
+//           this.filteredEmployeesData = [];
+//           this.columnTotals = [];
+//           this.grandTotal = 0;
+//         }
+
+//         console.log("Processed Employee Data:", this.filteredEmployeesData);
+//       },
+//       error => {
+//         this.spinner.hide();
+//         console.error("Error fetching employee attendance", error);
+//       }
+//     );
+// }
+
+
+
+
+
+  
+  
+  // formatAttendance(attendanceRecords: any[] | undefined): { 1: number; 2: number; 3: number; 4: number; 5: number; 6: number; 7: number; 8: number; } {
+  //   // Ensure attendanceRecords is an array, if not, return default structure
+  //   if (!Array.isArray(attendanceRecords)) {
+  //     return { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
+  //   }
+  
+  //   const formattedAttendance: { [key: number]: number } = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
+  
+  //   attendanceRecords.forEach(record => {
+  //     if (record && record.AttendanceDate) {
+  //       const day = new Date(record.AttendanceDate).getDate(); // Extract day of the month
+  //       if (day >= 1 && day <= 8) {
+  //         formattedAttendance[day] = record.Present || 0; // Set Present value
+  //       }
+  //     }
+  //   });
+  
+  //   return formattedAttendance as { 1: number; 2: number; 3: number; 4: number; 5: number; 6: number; 7: number; 8: number; };
+  // }
   totalEmpandAtt() {
     this.totalEmployeeAndAttendance = [];
     this.spinner.show();
@@ -450,7 +711,7 @@ calculateTotalPages() {
         if (res?.statusCode === 200 && Array.isArray(res.responseData)) {
           this.totalEmployeeAndAttendance = res.responseData;
 
-          // ✅ Assign fetched data to `this.employees` for filtering to work
+          // ✅ Assign fetched data to this.employees for filtering to work
           this.employees = this.totalEmployeeAndAttendance.map((emp, index) => {
             const attendanceData = this.formatAttendance(emp.attendanceRecords);
             return {
@@ -484,28 +745,38 @@ calculateTotalPages() {
       }
     );
 }
+formatAttendance(attendanceRecords: any[] | undefined): { [key: number]: number } {
+  if (!Array.isArray(attendanceRecords)) {
+    return {}; // Return empty object if no records
+  }
 
-  
-  
-  formatAttendance(attendanceRecords: any[] | undefined): { 1: number; 2: number; 3: number; 4: number; 5: number; 6: number; 7: number; 8: number; } {
-    // Ensure attendanceRecords is an array, if not, return default structure
-    if (!Array.isArray(attendanceRecords)) {
-      return { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
-    }
-  
-    const formattedAttendance: { [key: number]: number } = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
-  
-    attendanceRecords.forEach(record => {
-      if (record && record.AttendanceDate) {
-        const day = new Date(record.AttendanceDate).getDate(); // Extract day of the month
-        if (day >= 1 && day <= 8) {
-          formattedAttendance[day] = record.Present || 0; // Set Present value
+  const formattedAttendance: { [key: number]: number } = {};
+
+  attendanceRecords.forEach(record => {
+    if (record && record.AttendanceDate && record.InTime && record.OutTime) {
+      const day = new Date(record.AttendanceDate).getDate();
+      if (day >= 1 && day <= 31) {
+        const inTime = new Date(record.InTime);
+        const outTime = new Date(record.OutTime);
+
+        if (!isNaN(inTime.getTime()) && !isNaN(outTime.getTime())) {
+          const timeDiff = outTime.getTime() - inTime.getTime();
+          const hours = timeDiff / (1000 * 60 * 60);
+          formattedAttendance[day] = Math.floor(hours); // Use Math.floor to get the integer part
+        } else {
+          formattedAttendance[day] = 0;
         }
       }
-    });
-  
-    return formattedAttendance as { 1: number; 2: number; 3: number; 4: number; 5: number; 6: number; 7: number; 8: number; };
-  }
+    } else if (record && record.AttendanceDate && record.totalCalculatedTime) {
+      const day = new Date(record.AttendanceDate).getDate();
+      if (day >= 1 && day <= 31) {
+        formattedAttendance[day] = Math.floor(record.totalCalculatedTime); // Use Math.floor to get the integer part
+      }
+    }
+  });
+
+  return formattedAttendance;
+}
   
   
   

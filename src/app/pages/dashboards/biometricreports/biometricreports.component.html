@@ -81,8 +81,10 @@
           <option [value]="5">5</option>
           <option [value]="10">10</option>
           <option [value]="20">20</option>
-          <option [value]="25">25</option>
-          <option [value]="30">30</option>
+          <option [value]="100">100</option>
+          <option [value]="200">200</option>
+          <option [value]="1000">1000</option>
+          <option [value]="2000">2000</option>
         </select>
         entries
       </label>
@@ -145,7 +147,7 @@
                     style="width: 80px; font-size: 10px; text-align: center;">
                     {{ day.day }} <br> {{ day.weekday }}
                 </th>
-                <th style="width: 100px; background: lightblue;">Total</th> <!-- Row Totals -->
+                <th style="width: 100px; background: lightblue;">Total</th> 
             </tr>
         </thead>
         <tbody>
@@ -155,7 +157,7 @@
                 </td>
                 <td style="width: 100px; font-weight: bold; background: lightblue; text-align: center;">
                     {{ employee.total }}
-                </td> <!-- Row-wise Total -->
+                </td>
             </tr>
         </tbody>
         <tfoot>
@@ -165,7 +167,7 @@
                 </td>
                 <td style="font-weight: bold; background: lightblue; text-align: center;">
                     {{ grandTotal }}
-                </td> <!-- Grand Total -->
+                </td> 
             </tr>
         </tfoot>
     </table>
