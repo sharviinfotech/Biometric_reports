@@ -336,6 +336,7 @@ calculateTotalPages() {
       startY: 20,  // Adjust starting position
       margin: { left: 2, right: 2 },  // Ensures proper spacing
       theme: 'grid',
+      rowPageBreak: 'avoid',
       styles: {
           overflow: 'linebreak',
           fontSize: 7,  // Adjust font size to fit content better
