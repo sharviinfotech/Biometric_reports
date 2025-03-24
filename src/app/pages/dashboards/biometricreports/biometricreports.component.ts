@@ -333,70 +333,45 @@ calculateTotalPages() {
     autoTable(doc, {
       head: [headers],
       body: data,
-      startY: 20,
-      styles: {
-        fontSize: 7, // Reduce font size to fit more content
-        cellPadding: 1, // Reduce cell padding
-        overflow: 'linebreak',
-        valign: 'middle',
-        halign: 'center',
-        minCellHeight: 6, // Reduce row height
-      },
-      headStyles: {
-        fillColor: [22, 160, 133], 
-        textColor: [255, 255, 255], 
-        fontSize: 8, // Reduce header font size
-        fontStyle: 'bold',
-        halign: 'center', // Ensure header text is centered
-      },
-      bodyStyles: {
-        textColor: [0, 0, 0], 
-      },
+      startY: 20,  // Adjust starting position
+      margin: { left: 2, right: 2 },  // Ensures proper spacing
       theme: 'grid',
-      columnStyles: {
-        0: { cellWidth: 8 }, // Reduce column widths
-        1: { cellWidth: 8 }, 
-        2: { cellWidth: 8 },
-        3: { cellWidth: 8 },
-        4: { cellWidth: 8 },
-        // Adjust dynamic columns
-        5: { cellWidth: 6 },
-        6: { cellWidth: 6 },
-        7: { cellWidth: 6 },
-        8: { cellWidth: 6 },
-        9: { cellWidth: 6 },
-        10: { cellWidth: 6 },
-        11: { cellWidth: 6 },
-        12: { cellWidth: 6 },
-        13: { cellWidth: 6 },
-        14: { cellWidth: 6 },
-        15: { cellWidth: 6 },
-        16: { cellWidth: 6 },
-        17: { cellWidth: 6 },
-        18: { cellWidth: 6 },
-        19: { cellWidth: 6 },
-        20: { cellWidth: 6 },
-        21: { cellWidth: 6 },
-        22: { cellWidth: 6 },
-        23: { cellWidth: 6 },
-        24: { cellWidth: 6 },
-        25: { cellWidth: 6 },
-        26: { cellWidth: 6 },
-        27: { cellWidth: 6 },
-        28: { cellWidth: 6 },
-        29: { cellWidth: 5 },
-        30: { cellWidth: 5 },
-        31: { cellWidth: 5 },
-        32: { cellWidth: 4 }
+      styles: {
+          overflow: 'linebreak',
+          fontSize: 7,  // Adjust font size to fit content better
+          cellPadding: 1,  // Increased padding for better visibility
+          lineWidth: 0.2,  // Ensures table borders are visible
+          lineColor: [0, 0, 0]  // Set border color to black
       },
-    });
+      tableLineWidth: 0.5,  // Ensure table borders are drawn
+      tableLineColor: [0, 0, 0],
+     
+      columnStyles: {
+          0: { cellWidth: 9 },  // S.No
+          1: { cellWidth: 9 },  // Code No
+          2: { cellWidth: 19 },  // Name of Employee (Wider for readability)
+          3: { cellWidth: 16 },  // Department
+          4: { cellWidth: 15 },  // Contractor
+          5: { cellWidth: 6 }, 6: { cellWidth: 8}, 7: { cellWidth: 7 },
+          8: { cellWidth: 7 }, 9: { cellWidth: 7 }, 10: { cellWidth: 7},
+          11: { cellWidth: 7 }, 12: { cellWidth: 7}, 13: { cellWidth: 7 },
+          14: { cellWidth: 7 }, 15: { cellWidth: 7 }, 16: { cellWidth: 7 },
+          17: { cellWidth: 7 }, 18: { cellWidth: 7 }, 19: { cellWidth: 7 },
+          20: { cellWidth: 8 }, 21: { cellWidth: 7 }, 22: { cellWidth: 7 },
+          23: { cellWidth: 7 }, 24: { cellWidth: 7 }, 25: { cellWidth: 7 },
+          26: { cellWidth: 7 }, 27: { cellWidth: 7 }, 28: { cellWidth: 7},
+          29: { cellWidth: 7 }, 30: { cellWidth: 7}, 31: { cellWidth: 7},
+          32: { cellWidth: 6 }  // Total column
+      }
+  });
+ 
   
     // Save the PDF
     doc.save('EmployeeData.pdf');
   }
   // downloadPDF() {
   //   const doc = new jsPDF('landscape');
-  //   doc.text('Employee Data', 14, 10);
+  //   doc.text('Employee Data', 13.5, 10);
   
   //   const table = document.querySelector('table') as HTMLTableElement;
   //   if (!table) {
@@ -426,7 +401,7 @@ calculateTotalPages() {
   //     startY: 20,
   //     styles: {
   //       fontSize: 8,
-  //       cellPadding: 4,
+  //       cellPadding: 3.5,
   //       overflow: 'linebreak',
   //       valign: 'middle',
   //       halign: 'center',
