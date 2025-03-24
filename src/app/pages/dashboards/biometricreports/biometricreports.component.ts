@@ -285,94 +285,9 @@ calculateTotalPages() {
       this.downloadExcel();
     }
   }
-  downloadPDF() {
-    const doc = new jsPDF('landscape'); // Set landscape mode
-    doc.text('Employee Data', 14, 10); // Title at the top
-  
-    const table = document.querySelector('table') as HTMLTableElement;
-    if (!table) {
-      alert("No table data available!");
-      return;
-    }
-  
-    // Extract table headers (static)
-    const headers: string[] = [];
-    table.querySelectorAll("thead tr:nth-child(1) th").forEach(th => {
-      headers.push(th.textContent?.trim() || "");  
-    });
-  
-    // Extract table rows (static)
-    const data: string[][] = [];
-    table.querySelectorAll("tbody tr").forEach(row => {
-      const rowData: string[] = [];
-      row.querySelectorAll("td").forEach(td => {
-        rowData.push(td.textContent?.trim() || "");  
-      });
-      data.push(rowData);
-    });
-  
-    // Extract dynamic columns (dates) from the scrollable table
-    const scrollableTable = document.querySelector('.scrollable-table') as HTMLTableElement;
-    if (scrollableTable) {
-      scrollableTable.querySelectorAll("thead tr:nth-child(1) th").forEach(th => {
-        headers.push(th.textContent?.trim() || "");  
-      });
-  
-      scrollableTable.querySelectorAll("tbody tr").forEach((row, rowIndex) => {
-        row.querySelectorAll("td").forEach(td => {
-          data[rowIndex].push(td.textContent?.trim() || "");  
-        });
-      });
-    }
-  
-    // Add the "Total" row to the data (convert numbers to strings)
-    const totalRow = ["Total", "", "", "", "", ...this.columnTotals.map(num => num.toString()), this.grandTotal.toString()];
-    data.push(totalRow);
-  
-    // Generate PDF with autoTable
-    autoTable(doc, {
-      head: [headers],
-      body: data,
-      startY: 20,  // Adjust starting position
-      margin: { left: 2, right: 2 },  // Ensures proper spacing
-      theme: 'grid',
-      rowPageBreak: 'avoid',
-      styles: {
-          overflow: 'linebreak',
-          fontSize: 7,  // Adjust font size to fit content better
-          cellPadding: 1,  // Increased padding for better visibility
-          lineWidth: 0.2,  // Ensures table borders are visible
-          lineColor: [0, 0, 0]  // Set border color to black
-      },
-      tableLineWidth: 0.5,  // Ensure table borders are drawn
-      tableLineColor: [0, 0, 0],
-     
-      columnStyles: {
-          0: { cellWidth: 9 },  // S.No
-          1: { cellWidth: 9 },  // Code No
-          2: { cellWidth: 19 },  // Name of Employee (Wider for readability)
-          3: { cellWidth: 16 },  // Department
-          4: { cellWidth: 15 },  // Contractor
-          5: { cellWidth: 6 }, 6: { cellWidth: 8}, 7: { cellWidth: 7 },
-          8: { cellWidth: 7 }, 9: { cellWidth: 7 }, 10: { cellWidth: 7},
-          11: { cellWidth: 7 }, 12: { cellWidth: 7}, 13: { cellWidth: 7 },
-          14: { cellWidth: 7 }, 15: { cellWidth: 7 }, 16: { cellWidth: 7 },
-          17: { cellWidth: 7 }, 18: { cellWidth: 7 }, 19: { cellWidth: 7 },
-          20: { cellWidth: 8 }, 21: { cellWidth: 7 }, 22: { cellWidth: 7 },
-          23: { cellWidth: 7 }, 24: { cellWidth: 7 }, 25: { cellWidth: 7 },
-          26: { cellWidth: 7 }, 27: { cellWidth: 7 }, 28: { cellWidth: 7},
-          29: { cellWidth: 7 }, 30: { cellWidth: 7}, 31: { cellWidth: 7},
-          32: { cellWidth: 6 }  // Total column
-      }
-  });
- 
-  
-    // Save the PDF
-    doc.save('EmployeeData.pdf');
-  }
   // downloadPDF() {
-  //   const doc = new jsPDF('landscape');
-  //   doc.text('Employee Data', 13.5, 10);
+  //   const doc = new jsPDF('landscape'); // Set landscape mode
+  //   doc.text('Employee Data', 14, 10); // Title at the top
   
   //   const table = document.querySelector('table') as HTMLTableElement;
   //   if (!table) {
@@ -380,13 +295,13 @@ calculateTotalPages() {
   //     return;
   //   }
   
-  //   // Extract headers
+  //   // Extract table headers (static)
   //   const headers: string[] = [];
   //   table.querySelectorAll("thead tr:nth-child(1) th").forEach(th => {
   //     headers.push(th.textContent?.trim() || "");  
   //   });
   
-  //   // Extract table rows
+  //   // Extract table rows (static)
   //   const data: string[][] = [];
   //   table.querySelectorAll("tbody tr").forEach(row => {
   //     const rowData: string[] = [];
@@ -396,62 +311,266 @@ calculateTotalPages() {
   //     data.push(rowData);
   //   });
   
+  //   // Extract dynamic columns (dates) from the scrollable table
+  //   const scrollableTable = document.querySelector('.scrollable-table') as HTMLTableElement;
+  //   if (scrollableTable) {
+  //     scrollableTable.querySelectorAll("thead tr:nth-child(1) th").forEach(th => {
+  //       headers.push(th.textContent?.trim() || "");  
+  //     });
+  
+  //     scrollableTable.querySelectorAll("tbody tr").forEach((row, rowIndex) => {
+  //       row.querySelectorAll("td").forEach(td => {
+  //         data[rowIndex].push(td.textContent?.trim() || "");  
+  //       });
+  //     });
+  //   }
+  
+  //   // Add the "Total" row to the data (convert numbers to strings)
+  //   const totalRow = ["Total", "", "", "", "", ...this.columnTotals.map(num => num.toString()), this.grandTotal.toString()];
+  //   data.push(totalRow);
+  
+  //   // Generate PDF with autoTable
   //   autoTable(doc, {
   //     head: [headers],
   //     body: data,
-  //     startY: 20,
-  //     styles: {
-  //       fontSize: 8,
-  //       cellPadding: 3.5,
-  //       overflow: 'linebreak',
-  //       valign: 'middle',
-  //       halign: 'center',
-  //       minCellHeight: 10, 
-  //     },
-  //     headStyles: {
-  //       fillColor: [22, 1100, 133], 
-  //       textColor: [255, 255, 255], 
-  //       fontSize: 10,
-  //       fontStyle: 'bold',
-  //       halign: 'center',
-  //     },
-  //     bodyStyles: {
-  //       textColor: [0, 0, 0], 
-  //     },
+  //     startY: 20,  // Adjust starting position
+  //     margin: { left: 2, right: 2 },  // Ensures proper spacing
   //     theme: 'grid',
-  //     columnStyles: {
-  //       0: { cellWidth: 15 }, 
-  //       1: { cellWidth: 20 }, 
-  //       2: { cellWidth: 40 },
-  //       3: { cellWidth: 30 },
-  //       4: { cellWidth: 30 },
-  //       // Dynamic columns (dates)
-  //       5: { cellWidth: 10 },
-  //       6: { cellWidth: 10 },
-  //       7: { cellWidth: 10 },
-  //       8: { cellWidth: 10 },
+  //     rowPageBreak: 'avoid',
+  //     styles: {
+  //         overflow: 'linebreak',
+  //         fontSize: 7,  // Adjust font size to fit content better
+  //         cellPadding: 1,  // Increased padding for better visibility
+  //         lineWidth: 0.2,  // Ensures table borders are visible
+  //         lineColor: [0, 0, 0]  // Set border color to black
   //     },
-  //   });
+  //     tableLineWidth: 0.5,  // Ensure table borders are drawn
+  //     tableLineColor: [0, 0, 0],
+     
+  //     columnStyles: {
+  //         0: { cellWidth: 9 },  // S.No
+  //         1: { cellWidth: 9 },  // Code No
+  //         2: { cellWidth: 19 },  // Name of Employee (Wider for readability)
+  //         3: { cellWidth: 16 },  // Department
+  //         4: { cellWidth: 15 },  // Contractor
+  //         5: { cellWidth: 6 }, 6: { cellWidth: 8}, 7: { cellWidth: 7 },
+  //         8: { cellWidth: 7 }, 9: { cellWidth: 7 }, 10: { cellWidth: 7},
+  //         11: { cellWidth: 7 }, 12: { cellWidth: 7}, 13: { cellWidth: 7 },
+  //         14: { cellWidth: 7 }, 15: { cellWidth: 7 }, 16: { cellWidth: 7 },
+  //         17: { cellWidth: 7 }, 18: { cellWidth: 7 }, 19: { cellWidth: 7 },
+  //         20: { cellWidth: 8 }, 21: { cellWidth: 7 }, 22: { cellWidth: 7 },
+  //         23: { cellWidth: 7 }, 24: { cellWidth: 7 }, 25: { cellWidth: 7 },
+  //         26: { cellWidth: 7 }, 27: { cellWidth: 7 }, 28: { cellWidth: 7},
+  //         29: { cellWidth: 7 }, 30: { cellWidth: 7}, 31: { cellWidth: 7},
+  //         32: { cellWidth: 6 }  // Total column
+  //     }
+  // });
+ 
   
+  //   // Save the PDF
   //   doc.save('EmployeeData.pdf');
   // }
-  
-
-
-
-  
-
-  downloadExcel() {
-    // Select the main table element
-    const mainTable = document.querySelector('table') as HTMLTableElement;
+  downloadPDF() {
+    const doc = new jsPDF('landscape'); // Set landscape mode
+    doc.setFontSize(12);
     
+    // Display the selected month and year
+    const monthName = this.months.find(m => m.value === this.selectedMonth)?.name || 'N/A';
+    const year = this.selectedYear || 'N/A';
+    
+    doc.text(`Employee Data - ${monthName} ${year}`, 14, 10); // Updated title with month & year
+    
+    const table = document.querySelector('table') as HTMLTableElement;
+    if (!table) {
+      alert("No table data available!");
+      return;
+    }
+
+    // Extract table headers
+    const headers: string[] = [];
+    table.querySelectorAll("thead tr:nth-child(1) th").forEach(th => {
+        headers.push(th.textContent?.trim() || "");  
+    });
+
+    // Extract table rows
+    const data: string[][] = [];
+    table.querySelectorAll("tbody tr").forEach(row => {
+        const rowData: string[] = [];
+        row.querySelectorAll("td").forEach(td => {
+            rowData.push(td.textContent?.trim() || "");  
+        });
+        data.push(rowData);
+    });
+
+    // Extract dynamic columns (if any)
+    const scrollableTable = document.querySelector('.scrollable-table') as HTMLTableElement;
+    if (scrollableTable) {
+        scrollableTable.querySelectorAll("thead tr:nth-child(1) th").forEach(th => {
+            headers.push(th.textContent?.trim() || "");  
+        });
+
+        scrollableTable.querySelectorAll("tbody tr").forEach((row, rowIndex) => {
+            row.querySelectorAll("td").forEach(td => {
+                data[rowIndex].push(td.textContent?.trim() || "");  
+            });
+        });
+    }
+
+    // Add Total row
+    const totalRow = ["Total", "", "", "", "", ...this.columnTotals.map(num => num.toString()), this.grandTotal.toString()];
+    data.push(totalRow);
+
+    // Generate PDF Table
+    autoTable(doc, {
+        head: [headers],
+        body: data,
+        startY: 20,  // Adjusted for heading
+        margin: { left: 2, right: 2 },
+        theme: 'grid',
+        rowPageBreak: 'avoid',
+        styles: {
+            overflow: 'linebreak',
+            fontSize: 7,
+            cellPadding: 1,
+            lineWidth: 0.2,
+            lineColor: [0, 0, 0]
+        },
+        tableLineWidth: 0.5,
+        tableLineColor: [0, 0, 0],
+        columnStyles: {
+            0: { cellWidth: 9 },  
+            1: { cellWidth: 9 },  
+            2: { cellWidth: 19 },  
+            3: { cellWidth: 16 },  
+            4: { cellWidth: 15 },  
+            5: { cellWidth: 6 }, 6: { cellWidth: 8}, 7: { cellWidth: 7 },
+            8: { cellWidth: 7 }, 9: { cellWidth: 7 }, 10: { cellWidth: 7},
+            11: { cellWidth: 7 }, 12: { cellWidth: 7}, 13: { cellWidth: 7 },
+            14: { cellWidth: 7 }, 15: { cellWidth: 7 }, 16: { cellWidth: 7 },
+            17: { cellWidth: 7 }, 18: { cellWidth: 7 }, 19: { cellWidth: 7 },
+            20: { cellWidth: 8 }, 21: { cellWidth: 7 }, 22: { cellWidth: 7 },
+            23: { cellWidth: 7 }, 24: { cellWidth: 7 }, 25: { cellWidth: 7 },
+            26: { cellWidth: 7 }, 27: { cellWidth: 7 }, 28: { cellWidth: 7},
+            29: { cellWidth: 7 }, 30: { cellWidth: 7}, 31: { cellWidth: 7},
+            32: { cellWidth: 6 }  
+        }
+    });
+
+    // Save the PDF
+    doc.save(`EmployeeData_${monthName}_${year}.pdf`);
+}
+
+ 
+  
+
+
+
+  
+
+  // downloadExcel() {
+  //   // Select the main table element
+  //   const mainTable = document.querySelector('table') as HTMLTableElement;
+    
+  //   if (!mainTable) {
+  //     alert("No table data available!");
+  //     return;
+  //   }
+  
+  //   // Select the scrollable table element (dynamic columns)
+  //   const scrollableTable = document.querySelector('.scrollable-table') as HTMLTableElement;
+  
+  //   // Combine headers from both tables
+  //   const headers: string[] = [];
+  //   mainTable.querySelectorAll("thead tr:nth-child(1) th").forEach(th => {
+  //     headers.push(th.textContent?.trim() || "");
+  //   });
+  
+  //   if (scrollableTable) {
+  //     scrollableTable.querySelectorAll("thead tr:nth-child(1) th").forEach(th => {
+  //       headers.push(th.textContent?.trim() || "");
+  //     });
+  //   }
+  
+  //   // Combine rows from both tables
+  //   const data: any[][] = [];
+  //   mainTable.querySelectorAll("tbody tr").forEach((row, rowIndex) => {
+  //     const rowData: any[] = [];
+  //     row.querySelectorAll("td").forEach(td => {
+  //       rowData.push(td.textContent?.trim() || "");
+  //     });
+  
+  //     if (scrollableTable) {
+  //       const scrollableRow = scrollableTable.querySelectorAll("tbody tr")[rowIndex];
+  //       if (scrollableRow) {
+  //         scrollableRow.querySelectorAll("td").forEach(td => {
+  //           rowData.push(td.textContent?.trim() || "");
+  //         });
+  //       }
+  //     }
+  
+  //     data.push(rowData);
+  //   });
+  
+  //   // Add the "Total" row to the data
+  //   const totalRow = ["Total", "", "", "", "", ...this.columnTotals, this.grandTotal];
+  //   data.push(totalRow);
+  
+  //   // Create a new worksheet
+  //   const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet([headers, ...data]);
+  
+  //   // Create a new workbook and append the worksheet
+  //   const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  //   XLSX.utils.book_append_sheet(wb, ws, "EmployeeData");
+  
+  //   // Generate Excel file
+  //   const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  
+  //   // Convert to Blob and save
+  //   const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+  //   saveAs(blob, `EmployeeData_${this.selectedMonth}_${this.selectedYear}.xlsx`);
+  // }
+
+  
+  // calculateTotals() {
+  //   // Get the actual number of days in the selected month
+  //   let daysCount = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
+  
+  //   // Ensure consistent 31-day representation for all months in the totals calculation
+  //   const maxDays = 31; 
+  
+  //   // Compute column-wise totals for all 31 days (or the actual days if less)
+  //   this.columnTotals = Array.from({ length: maxDays }, (_, i) => {
+  //     // If the current day is within the actual days of the month, calculate the total
+  //     if (i < daysCount) {
+  //       return this.filteredEmployeesData.reduce((sum, emp) => sum + (emp.attendance[i + 1] || 0), 0);
+  //     } else {
+  //       // For days beyond the actual month, add 0 to the total
+  //       return 0; 
+  //     }
+  //   });
+  
+  //   // Compute grand total (sum of all row totals)
+  //   this.grandTotal = this.filteredEmployeesData.reduce((sum, emp) => sum + emp.total, 0);
+  
+  //   console.log("Column Totals:", this.columnTotals);
+  //   console.log("Grand Total:", this.grandTotal);
+  // }
+  downloadExcel() {
+    const mainTable = document.querySelector('table') as HTMLTableElement;
+  
     if (!mainTable) {
       alert("No table data available!");
       return;
     }
   
-    // Select the scrollable table element (dynamic columns)
     const scrollableTable = document.querySelector('.scrollable-table') as HTMLTableElement;
+  
+    // Get the month and year names
+    const monthName = this.months.find(m => m.value === this.selectedMonth)?.name || this.selectedMonth;
+    const year = this.selectedYear;
+  
+    // Title row
+    const titleRow = [`Employee Data - ${monthName} ${year}`];
   
     // Combine headers from both tables
     const headers: string[] = [];
@@ -489,8 +608,8 @@ calculateTotalPages() {
     const totalRow = ["Total", "", "", "", "", ...this.columnTotals, this.grandTotal];
     data.push(totalRow);
   
-    // Create a new worksheet
-    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet([headers, ...data]);
+    // Create a new worksheet with the title row
+    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet([titleRow, [], headers, ...data]);
   
     // Create a new workbook and append the worksheet
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
@@ -501,34 +620,9 @@ calculateTotalPages() {
   
     // Convert to Blob and save
     const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    saveAs(blob, `EmployeeData_${this.selectedMonth}_${this.selectedYear}.xlsx`);
+    saveAs(blob, `EmployeeData_${monthName}_${year}.xlsx`);
   }
-
   
-  // calculateTotals() {
-  //   // Get the actual number of days in the selected month
-  //   let daysCount = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
-  
-  //   // Ensure consistent 31-day representation for all months in the totals calculation
-  //   const maxDays = 31; 
-  
-  //   // Compute column-wise totals for all 31 days (or the actual days if less)
-  //   this.columnTotals = Array.from({ length: maxDays }, (_, i) => {
-  //     // If the current day is within the actual days of the month, calculate the total
-  //     if (i < daysCount) {
-  //       return this.filteredEmployeesData.reduce((sum, emp) => sum + (emp.attendance[i + 1] || 0), 0);
-  //     } else {
-  //       // For days beyond the actual month, add 0 to the total
-  //       return 0; 
-  //     }
-  //   });
-  
-  //   // Compute grand total (sum of all row totals)
-  //   this.grandTotal = this.filteredEmployeesData.reduce((sum, emp) => sum + emp.total, 0);
-  
-  //   console.log("Column Totals:", this.columnTotals);
-  //   console.log("Grand Total:", this.grandTotal);
-  // }
   filteredEmployees() {
     console.log("this.searchTerm", this.searchTerm);
 
