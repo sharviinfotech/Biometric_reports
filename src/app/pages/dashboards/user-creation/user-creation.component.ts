@@ -29,7 +29,7 @@ export class UserCreationComponent {
   fieldTextType: boolean = false;
   submitted = false;
 confirmFieldTextType: boolean = false;
-  userNewCreation: any[];
+  // userNewCreation: any[];
   userList: any[];
   submit: boolean=false;
   userUniqueId: any;
@@ -231,7 +231,7 @@ confirmFieldTextType: boolean = false;
       
       console.log("updateObj", updateObj);
       this.spinner.show()
-      this.service. updateExitUser(updateObj,this.userUniqueId).subscribe((res: any) => {
+      this.service. updateExitUser(updateObj).subscribe((res: any) => {
         console.log("updateUserCreation", res);
         this.spinner.hide()
         if (res.status == 400) {

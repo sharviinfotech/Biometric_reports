@@ -27,52 +27,52 @@ getLoginResponse(){
     return  this.loginResponse;
 }
   getAllInvoice(){
-    return this.http.get(environment.baseUrl+'invoice/getAllInvoices');
+    return this.http.get(environment.baseUrl+'reports/getAllInvoices');
   }
   CreateInvoice(obj){
-    return this.http.post(environment.baseUrl+'invoice/createNewInvoice',obj);
+    return this.http.post(environment.baseUrl+'reports/createNewInvoice',obj);
   }
   
   UpdateInvoice(obj,invoiceRefNo){
     return this.http.put(environment.baseUrl+'updateInvoiceByReferenceNo/'+invoiceRefNo,obj);
   }
   getstateList(){
-    return this.http.get(environment.baseUrl+'invoice/stateList');
+    return this.http.get(environment.baseUrl+'reports/stateList');
   }
 
   invoiceTemplate(obj){
-    return this.http.post(environment.baseUrl+'invoice/invoiceTemplate',obj);
+    return this.http.post(environment.baseUrl+'reports/invoiceTemplate',obj);
 
   }
   userNewCreation(obj){
-    return this.http.post(environment.baseUrl+'invoice/userNewCreation',obj);
+    return this.http.post(environment.baseUrl+'reports/userNewCreation',obj);
 
   }
   getAllUserList(){
-    return this.http.get(environment.baseUrl+'invoice/getAllUserList');
+    return this.http.get(environment.baseUrl+'reports/getAllUserList');
   }
 
   submitLogin(obj){
-    return this.http.post(environment.baseUrl+'invoice/authenticationLogin',obj);
+    return this.http.post(environment.baseUrl+'reports/authenticationLogin',obj);
   }
-  updateExitUser(obj,userUniqueId){
-    return this.http.put(environment.baseUrl+'invoice/updateExitUser/'+userUniqueId,obj);
+  updateExitUser(obj,){
+    return this.http.post(environment.baseUrl+'reports/updateExitUser',obj);
   }
   invoiceApprovedOrRejected(obj){
-    return this.http.post(environment.baseUrl+'invoice/invoiceApprovedOrRejected',obj);
+    return this.http.post(environment.baseUrl+'reports/invoiceApprovedOrRejected',obj);
   }
   forgotPassword(obj){
-    return this.http.post(environment.baseUrl+'invoice/forgotPassword',obj);
+    return this.http.post(environment.baseUrl+'reports/forgotPassword',obj);
   }
   getAllCustomerList(){
-    return this.http.get(environment.baseUrl+'invoice/getAllCustomerList');
+    return this.http.get(environment.baseUrl+'reports/getAllCustomerList');
   }
   savecustomerCreation(obj){
-    return this.http.post(environment.baseUrl+'invoice/SaveCustomerCreation',obj);
+    return this.http.post(environment.baseUrl+'reports/SaveCustomerCreation',obj);
  
   }
   updateExitCustomer(obj,customerUniqueId){
-    return this.http.put(environment.baseUrl+'invoice/updateExitCustomer/'+customerUniqueId,obj);
+    return this.http.put(environment.baseUrl+'reports/updateExitCustomer/'+customerUniqueId,obj);
  
   }
 
@@ -86,7 +86,7 @@ getLoginResponse(){
  
   }
   deteleGlobal(obj){
-    return this.http.post(environment.baseUrl+'invoice/deteleGlobal',obj);
+    return this.http.post(environment.baseUrl+'reports/deteleGlobal',obj);
  
   }
 
