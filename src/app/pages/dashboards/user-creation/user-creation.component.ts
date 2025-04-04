@@ -32,8 +32,9 @@ confirmFieldTextType: boolean = false;
   // userNewCreation: any[];
   userList: any[];
   submit: boolean=false;
-  userUniqueId: any;
+  userUniqueId: number;
   loginData: any;
+  userId: any;
   
  
 
@@ -93,17 +94,17 @@ confirmFieldTextType: boolean = false;
     console.log('user',user);
     this.userUniqueId =null
     const selectedUser = user;
-    this.userUniqueId = user.userUniqueId
+    this.userUniqueId = user.UserID
     this.userEditForm.patchValue({
-      userName: selectedUser.userName,
-      firstName: selectedUser.userFirstName,
-      lastName: selectedUser.userLastName,
-      email: selectedUser.userEmail,
-      contact: selectedUser.userContact,
-      password: selectedUser.userPassword,
-      confirmPassword: selectedUser.userConfirmPassword,
-      activity: selectedUser.userActivity,
-      status: selectedUser.userStatus 
+      userName: selectedUser.UserName,
+      firstName: selectedUser.UserFirstName,
+      lastName: selectedUser.UserLastName,
+      email: selectedUser.UserEmail,
+      contact: selectedUser.UserContact,
+      password: selectedUser.UserPassword,
+      confirmPassword: selectedUser.UserConfirmPassword,
+      activity: selectedUser.UserActivity,
+      status: selectedUser.UserStatus 
     });
     this.modalService.open(this.editUserTemplate, {
       backdrop: 'static', 
@@ -208,67 +209,129 @@ confirmFieldTextType: boolean = false;
      
 
   // Update User Information
-  updateUserCreation(modal: any): void {
-    if (this.userEditForm.valid) {
-      console.log('Updated Data:', this.userEditForm.value);
-      // Here, you would typically send the updated data to the backend
+  // updateUserCreation(modal: any): void {
+  //   if (this.userEditForm.valid) {
+  //     console.log('Updated Data:', this.userEditForm.value);
+  //     // Here, you would typically send the updated data to the backend
     
   
       
-      let updateObj = {
-        "userUniqueId": this.userUniqueId, // Assuming the unique ID is part of the form
-        "userName": this.userEditForm.value.userName,
-        "userFirstName": this.userEditForm.value.firstName,
-        "userLastName": this.userEditForm.value.lastName,
-        "userEmail": this.userEditForm.value.email,
-        "userContact": this.userEditForm.value.contact,
-        "userPassword": this.userEditForm.value.password,
-        "userConfirmPassword": this.userEditForm.value.confirmPassword,
-        "userStatus": this.userEditForm.value.status,
-        "userActivity": this.userEditForm.value.activity,
+  //     let updateObj = {
+  //       "userUniqueId": this.userUniqueId, // Assuming the unique ID is part of the form
+  //       "userName": this.userEditForm.value.userName,
+  //       "userFirstName": this.userEditForm.value.firstName,
+  //       "userLastName": this.userEditForm.value.lastName,
+  //       "userEmail": this.userEditForm.value.email,
+  //       "userContact": this.userEditForm.value.contact,
+  //       "userPassword": this.userEditForm.value.password,
+  //       "userConfirmPassword": this.userEditForm.value.confirmPassword,
+  //       "userStatus": this.userEditForm.value.status,
+  //       "userActivity": this.userEditForm.value.activity,
 
-      };
+  //     };
       
-      console.log("updateObj", updateObj);
-      this.spinner.show()
-      this.service. updateExitUser(updateObj).subscribe((res: any) => {
-        console.log("updateUserCreation", res);
-        this.spinner.hide()
-        if (res.status == 400) {
-          this.toastr.success(res.message);
-        } else {
-          this.submit =false
-          // Display success toast
-          this.modalService.dismissAll(modal);
-          Swal.fire({
-            title: '',
-            text: res.message,
-            icon: 'success',
-            cancelButtonText: 'Ok',
-            timer:5000
-          }).then((result) => {
-            if (result) {
-              // Handle confirmation if needed
-            } else {
-              // Handle cancel if needed
-            }
-          });
-        }
-        this.userEditForm.reset()
-        this.getAllUserList();
+  //     console.log("updateObj", updateObj);
+  //     this.spinner.show()
+  //     this.service. updateExitUser(updateObj).subscribe((res: any) => {
+  //       console.log("updateUserCreation", res);
+  //       this.spinner.hide()
+  //       if (res.status == 400) {
+  //         this.toastr.success(res.message);
+  //       } else {
+  //         this.submit =false
+  //         // Display success toast
+  //         this.modalService.dismissAll(modal);
+  //         Swal.fire({
+  //           title: '',
+  //           text: res.message,
+  //           icon: 'success',
+  //           cancelButtonText: 'Ok',
+  //           timer:5000
+  //         }).then((result) => {
+  //           if (result) {
+  //             // Handle confirmation if needed
+  //           } else {
+  //             // Handle cancel if needed
+  //           }
+  //         });
+  //       }
+  //       this.userEditForm.reset()
+  //       this.getAllUserList();
         
-        this.submitted = false;
-      }, error => {
-        this.spinner.hide()
-        this.toastr.error(error);
-        console.log("error", error);
-      });
-    } else {
-      console.log('Form is invalid');// Ensure all fields are marked as touched
-      this.submit =true
-    }
-  }
+  //       this.submitted = false;
+  //     }, error => {
+  //       this.spinner.hide()
+  //       this.toastr.error(error);
+  //       console.log("error", error);
+  //     });
+  //   } else {
+  //     console.log('Form is invalid');// Ensure all fields are marked as touched
+  //     this.submit =true
+  //   }
+  // }
   
+  updateUserCreation(modal: any): void {
+    if (this.userEditForm.valid) {
+        console.log('Updated Data:', this.userEditForm.value);
+        
+        let updateObj = {
+            "userId":  this.userUniqueId,
+            "userName": this.userEditForm.value.userName,
+            "userFirstName": this.userEditForm.value.firstName,
+            "userLastName": this.userEditForm.value.lastName,
+            "userEmail": this.userEditForm.value.email,
+            "userContact": this.userEditForm.value.contact,
+            "userPassword": this.userEditForm.value.password,
+            "userConfirmPassword": this.userEditForm.value.confirmPassword,
+            "userStatus": this.userEditForm.value.status.toString(),
+            "userActivity": this.userEditForm.value.activity,
+        };
+        
+        console.log("updateObj", updateObj);
+        this.spinner.show();
+
+        this.service.updateExitUser(updateObj).subscribe((res: any) => {
+            console.log("updateUserCreation Response:", res);
+            this.spinner.hide();
+
+
+            if (res.status == 400) {
+                this.toastr.success(res.message);
+            } else {
+                this.submit = false;
+                this.modalService.dismissAll(modal);
+
+                Swal.fire({
+                    title: '',
+                    text: res.message,
+                    icon: 'success',
+                    cancelButtonText: 'Ok',
+                    timer: 5000
+                });
+
+                // **Update table data manually**
+                const index = this.userList.findIndex(user => user.userId === this.userId);
+                if (index !== -1) {
+                    this.userList[index] = { ...updateObj };
+                }
+                
+                this.userEditForm.reset();
+                this.getAllUserList();  // Ensure fresh data is fetched
+                this.submitted = false;
+            }
+        }, error => {
+            this.spinner.hide();
+            this.toastr.error(error);
+            console.log("error", error);
+        });
+    } else {
+        console.log('Form is invalid');
+        this.submit = true;
+    }
+}
+
+
+
   // submitNewUser() {
   //   this.submitted = true;
   //   if (this.userCreationForm.invalid) {
@@ -382,6 +445,8 @@ confirmFieldTextType: boolean = false;
   //     );
   //   }
   delete(data): void {
+
+    this.userUniqueId = data.UserID
     console.log("data",data.userActivity)
     const adminCount = this.userList.filter(user => user.userActivity === 'ADMIN').length;
     console.log("Admin Count:", adminCount);
@@ -422,18 +487,17 @@ confirmFieldTextType: boolean = false;
       }).then((result) => {
         if (result.isConfirmed) {
           this.spinner.show();
-          console.log('Deleting Customer with ID:', data, this.userUniqueId);
-          this.userUniqueId = data.userUniqueId;
+          console.log('Deleting Customer with ID:', data, this.userId);
+          this.userId = data.userId;
           let deletePayload = {
-            globalId: this.userUniqueId,
-            screenName: "user"
+            userId: this.userUniqueId,
           };
          
           console.log("Delete payload:", deletePayload);
           this.service.deteleGlobal(deletePayload).subscribe((res: any) => {
             console.log("deleteGlobal response:", res);
             this.spinner.hide();
-            if (res.status === 200) {
+            if (res.statusCode === 200) {
               this.getAllUserList()
               Swal.fire({
                 title: 'Success',

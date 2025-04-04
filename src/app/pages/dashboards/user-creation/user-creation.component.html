@@ -36,9 +36,9 @@
                             <td>{{data.UserEmail}}</td>
                             <td>{{data.UserContact}}</td>
                             <td>
-                              {{ data.UserStatus ? 'Active' : 'Inactive' }}
+                              {{ data.UserStatus  ? 'Active' : 'Inactive' }}
                             </td>
-                            
+
                             <td class="text-center" *ngIf="loginData?.data.userActivity == 'ADMIN'">
                            
                                 <i class="edit-btn fa fa-edit"  (click)="openEditModal(data, editUserTemplate)"></i>

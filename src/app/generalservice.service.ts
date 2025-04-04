@@ -86,7 +86,7 @@ getLoginResponse(){
  
   }
   deteleGlobal(obj){
-    return this.http.post(environment.baseUrl+'reports/deteleGlobal',obj);
+    return this.http.post(environment.baseUrl+'reports/deleteExitUser',obj);
  
   }
 

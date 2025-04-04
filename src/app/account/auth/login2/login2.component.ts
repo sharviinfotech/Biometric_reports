@@ -305,7 +305,7 @@ export class Login2Component implements OnInit {
   
         // Ensure UI update completes before showing Swal
         setTimeout(() => {
-          if (response.status === 200 && response.data.isValid) {
+          if (response.status === 200 && response.loginValid) {
             localStorage.setItem('currentUser', JSON.stringify(response || { token: response.token }));
             const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
             this.router.navigate([returnUrl], { skipLocationChange: true });
@@ -320,12 +320,11 @@ export class Login2Component implements OnInit {
               timerProgressBar: true, // Shows a progress bar
             });
           } 
-          else if (response.status === 200 && response.data.isValid === false) {
+          else  {
+            console.log("else")
             Swal.fire('Login Failed', `${response.message}`, 'error');
           } 
-          else {
-            Swal.fire('', 'Invalid login credentials!', 'error');
-          }
+        
   
           this.submitted = false;
         }, 0); // Delay ensures UI updates before modal appears
