@@ -295,7 +295,7 @@ confirmFieldTextType: boolean = false;
       "userContact": this.userCreationForm.value.contact,
       "userPassword": this.userCreationForm.value.password,
       "userConfirmPassword": this.userCreationForm.value.confirmPassword,
-      "userStatus": this.userCreationForm.value.status,
+      "userStatus": this.userCreationForm.value.status.toString(), 
       "userActivity": this.userCreationForm.value.activity
     };
   
@@ -468,7 +468,7 @@ confirmFieldTextType: boolean = false;
     this.userList = [];
     this.spinner.show()
     this.service.getAllUserList().subscribe((res:any)=>{
-      this.userList = res.data
+      this.userList = res.responseData
       this.spinner.hide()
       console.log("this.userList",this.userList)
     },error =>{

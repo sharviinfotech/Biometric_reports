@@ -30,16 +30,16 @@
                     <tbody>
                         <tr *ngFor="let data of userList">
                             
-                            <td>{{data.userName}}</td>
-                            <td>{{data.userFirstName}}</td>
-                            <td>{{data.userLastName}}</td>
-                            <td>{{data.userEmail}}</td>
-                            <td>{{data.userContact}}</td>
+                            <td>{{data.UserName}}</td>
+                            <td>{{data.UserFirstName}}</td>
+                            <td>{{data.UserLastName}}</td>
+                            <td>{{data.UserEmail}}</td>
+                            <td>{{data.UserContact}}</td>
                             <td>
-                              {{ data.userStatus ? 'Active' : 'Inactive' }}
+                              {{ data.UserStatus ? 'Active' : 'Inactive' }}
                             </td>
 
-                           <td class="text-center" *ngIf="loginData?.data.userActivity == 'ADMIN'">
+                           <td class="text-center" *ngIf="loginData?.data.UserActivity == 'ADMIN'">
                            
                             <i class="edit-btn fa fa-edit"  (click)="openEditModal(data, editUserTemplate)"></i>
                             <i class="delete-btn bx bx-trash"  (click)="delete(data)"></i>
