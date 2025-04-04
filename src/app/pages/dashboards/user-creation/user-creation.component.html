@@ -38,13 +38,13 @@
                             <td>
                               {{ data.UserStatus ? 'Active' : 'Inactive' }}
                             </td>
-
-                           <td class="text-center" *ngIf="loginData?.data.UserActivity == 'ADMIN'">
+                            
+                            <td class="text-center" *ngIf="loginData?.data.userActivity == 'ADMIN'">
                            
-                            <i class="edit-btn fa fa-edit"  (click)="openEditModal(data, editUserTemplate)"></i>
-                            <i class="delete-btn bx bx-trash"  (click)="delete(data)"></i>
-                          
-                           </td>
+                                <i class="edit-btn fa fa-edit"  (click)="openEditModal(data, editUserTemplate)"></i>
+                                <i class="delete-btn bx bx-trash"  (click)="delete(data)"></i>
+                              
+                               </td>
                             
                         </tr>
                        
